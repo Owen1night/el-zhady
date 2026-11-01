@@ -1,6 +1,14 @@
-# Stage 2 setup — not configured or deployed yet
+# Stage 2 setup and acceptance record
 
-The existing public site is `https://owen1night.github.io/el-zhady/` (provided by the owner). Stage 2 is a review branch; do **not** merge/deploy it merely to perform setup. No Supabase project, credentials, provider configuration or hosted migration was available in this environment. This guide describes the actual missing work, not completed setup.
+The public site is `https://owen1night.github.io/el-zhady/`. The owner has now authorised PR #2 to be marked ready, merged and deployed after review/checks. Earlier instructions to keep the PR undeployed applied to the implementation stage and are superseded by this release authorisation.
+
+## Current reported setup — do not repeat the migration
+
+On 2026-11-01 the owner reported that the initial migration was applied successfully **once through Supabase SQL Editor**, the exact site/redirect URL above is configured, anonymous and Google Auth are enabled, Google is in Testing with the owner's account added, Turnstile is enabled, and all four public GitHub Actions variables are saved. Google/CAPTCHA secrets remain only in Supabase. Admin access has **not** been granted.
+
+This is the owner's setup report, not an independently inspected database/provider configuration. See `supabase/MIGRATION_STATUS.md`. **Do not rerun the initial migration.** Its repository SQL remains unchanged. CLI migration-history reconciliation is still necessary before any future `db push`; the current release workflow never applies database migrations. The setup sections below are reference instructions for a fresh project, not a request to repeat completed setup.
+
+The release preflight in both PR CI and Pages validates all four public variable values without printing them. Successful preflight establishes build configuration presence/shape, not Google consent, CAPTCHA, RLS or Realtime functionality. Actual login/lobby acceptance remains a separate check after release. Never provide private credentials to the assistant.
 
 ## 1. Create/select the backend project
 
@@ -9,9 +17,9 @@ The existing public site is `https://owen1night.github.io/el-zhady/` (provided b
 3. The Data API's exposed schemas must **not** include `el_zhady_private`. The default `public` / `graphql_public` setup may remain; all app tables in `public` have RLS and explicit grants. The private schema contains identities, admin grants, request limits and future answer keys.
 4. If reusing an existing project, inspect it for schema/table collisions first. The migration intentionally fails on collisions instead of changing unrelated tables. Do not drop existing data to force it through.
 
-## 2. Apply the versioned migration
+## 2. Versioned migration — already applied manually for this project
 
-Review `supabase/migrations/20261101000100_stage2_foundation.sql`. It creates the app tables, RLS, grants, security-definer RPCs and Realtime publication entries. It does not create sample rooms, scores, admin passwords or answer keys.
+**Current project: already applied manually, per the owner. Do not execute it again.** The commands in this section are for a fresh project only. Review `supabase/migrations/20261101000100_stage2_foundation.sql`. It creates the app tables, RLS, grants, security-definer RPCs and Realtime publication entries. It does not create sample rooms, scores, admin passwords or answer keys.
 
 Preferred tracked deployment from the repository root, with the Supabase CLI installed or available through npx:
 
@@ -61,7 +69,7 @@ In Supabase Auth, keep/enforce anonymous sign-up and auth endpoint rate limits (
 
 Do not enable CAPTCHA on one side only. External Turnstile loading and Supabase's verification must be tested. More advanced IP quotas/moderation can be added later behind protected backend logic; current database quotas are per identity and cannot guarantee resistance to coordinated abuse. Supabase plan limits and anonymous-user retention should be monitored. Deleting an anonymous Auth user can remove its membership recovery, while saved public result snapshots remain.
 
-## 6. Supply the public build configuration (without deploying Stage 2)
+## 6. Public build configuration
 
 For local non-secret configuration, copy `.env.example` to ignored `.env.local` and set:
 
@@ -74,7 +82,7 @@ VITE_TURNSTILE_SITE_KEY=YOUR_ACTUAL_PUBLIC_SITE_KEY_IF_ENABLED
 
 These placeholders are documentation, not configured credentials. Never paste a secret/service-role key even temporarily: every `VITE_` variable can enter public JS. The client refuses secret-prefixed keys and legacy JWTs whose role is not `anon`, but you must still keep secrets out of the build environment entirely.
 
-For a later reviewed deployment: GitHub repository **Settings → Secrets and variables → Actions → Variables**, create `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, optional `VITE_TURNSTILE_SITE_KEY`, and `VITE_PUBLIC_SITE_URL` with the actual values. The Pages workflow reads these public variables. Adding variables does not deploy the branch. Do not run the Pages workflow for Stage 2 until its PR is separately approved for merge/deployment. A blank backend configuration keeps public sections working and displays an honest unavailable state for accounts/lobbies.
+For a later reviewed deployment: GitHub repository **Settings → Secrets and variables → Actions → Variables**, create `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, optional `VITE_TURNSTILE_SITE_KEY`, and `VITE_PUBLIC_SITE_URL` with the actual values. The Pages workflow reads these public variables. Adding variables does not deploy the branch. The owner has now approved this release after review and passing checks; PR CI and Pages both validate the same four public values before building. A blank backend configuration keeps public sections working and displays an honest unavailable state for accounts/lobbies.
 
 ## 7. Securely designate your account as admin
 

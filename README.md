@@ -2,7 +2,7 @@
 
 «Ел жады: Қазақстан, 1939–1953» — Kazakh-language university history website. The original repository heading is retained.
 
-Existing public foundation: **https://owen1night.github.io/el-zhady/** (URL supplied by the owner). Stage 2 adds reviewable Supabase authentication, private profiles and live-room infrastructure. **Stage 2 is not merged or deployed.** Its backend has not been configured or tested against a hosted project. Public history pages stay available without accounts or a backend connection. Historical content, images/maps/videos, practice games and competition gameplay remain unfinished and labelled; there are no invented results.
+Existing public foundation: **https://owen1night.github.io/el-zhady/** (URL supplied by the owner). Stage 2 adds reviewable Supabase authentication, private profiles and live-room infrastructure. The owner has authorised Stage 2 release after PR review and passing checks. The owner reports external setup complete; live Auth/provider acceptance has not yet been independently verified. See SUPABASE_SETUP.md and supabase/MIGRATION_STATUS.md for the setup/migration record. Public history pages stay available without accounts or a backend connection. Historical content, images/maps/videos, practice games and competition gameplay remain unfinished and labelled; there are no invented results.
 
 ## Local development and verification
 
@@ -29,7 +29,7 @@ Open `http://localhost:4173` on the machine running the server. This is local QA
 
 ## Stage 2 configuration — finish before hosted acceptance
 
-Follow **SUPABASE_SETUP.md** for exact steps: create/select the actual project, apply the versioned migration, enable Google and anonymous Auth, set URL allowlists, configure CAPTCHA/rate limits, set the public build variables, and grant your own permanent User UID admin through trusted SQL. No project or Google setup is assumed to exist.
+Follow **SUPABASE_SETUP.md** for the reported setup and exact acceptance/admin steps. The owner reports Google/anonymous Auth, Turnstile, redirects and all four public variables configured. The initial migration was applied manually once through SQL Editor; **do not rerun it**. No private credentials or privileged dashboard access have been supplied to this workspace. Grant your own permanent User UID admin only through the guarded SQL after first Google login.
 
 `.env.example` documents only public values. Copy to ignored `.env.local` for development and set actual values:
 
@@ -44,7 +44,7 @@ No Google client secret, database password, service-role key or admin password b
 
 The repository is `Owen1night/el-zhady`, default branch `main`. Vite `base: './'` emits relative assets; hash navigation prevents refreshed-route 404s under `/el-zhady/`. OAuth uses the existing index at `/el-zhady/?code=...` and restores a whitelisted hash destination; no server callback route or rewrite is needed.
 
-The existing `.github/workflows/pages.yml` deploys only on a push to `main` or explicit manual dispatch. Pull-request CI in `.github/workflows/checks.yml` installs, type/content checks, tests the database security contract and builds with Node 22. **Do not merge or manually dispatch Pages for this Stage 2 branch yet.** The PR is for review and setup first; no other hosting provider is introduced.
+The existing `.github/workflows/pages.yml` deploys only on a push to `main` or explicit manual dispatch. Pull-request CI in `.github/workflows/checks.yml` installs, type/content checks, tests the database security contract and builds with Node 22. PR #2 may now be marked ready and merged after passing checks under the owner's explicit release authorisation. No other hosting provider is introduced. Both PR CI and Pages run `npm run check:deploy` with all four public repository variables; missing/invalid values stop the build without printing supplied values.
 
 For a later explicitly approved release:
 

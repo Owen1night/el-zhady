@@ -103,3 +103,13 @@ SUPABASE_SETUP.md gives exact project/migration/Auth/Google/URL/CAPTCHA/build-va
 ### GitHub delivery evidence
 
 Implementation commit `127cbad` is pushed on `codex/stage-2-auth-lobbies`; draft PR **https://github.com/Owen1night/el-zhady/pull/2** targets main and is unmerged. GitHub Node 22 CI at **https://github.com/Owen1night/el-zhady/actions/runs/41297889042** passed dependency installation, type/content checks, tests and build. Remote main remains `3dbcde5`; no Stage 2 Pages dispatch or external configuration/migration was performed. A follow-up documentation-only commit records this actual delivery evidence. The internal Stage 2 QA server was stopped after tests.
+
+## Stage 2 release review after owner-reported external setup
+
+The owner reports the initial migration successfully applied once via Supabase SQL Editor; Google/anonymous Auth, exact production redirects, Google Testing/test-user access, Turnstile and all four public repository variables are configured. This is a reported setup record, not independent verification of privileged Supabase/Google dashboards. Admin is not granted yet. `supabase/MIGRATION_STATUS.md` records the manual application and repository checksum. The migration SQL was not changed or rerun on hosted Supabase.
+
+Review confirms Pages maps all four variables to the build. Both PR CI and Pages now run `check:deploy` against those public variables, rejecting missing/invalid values without printing them. This enables independent build-configuration verification through CI even though repository-variable management is unavailable through the connector. A CAPTCHA retry issue was fixed: failed guest sign-in clears the consumed token and remounts the challenge. No game or historical content was added.
+
+Public HTTPS inspection from the executor encountered an explicit proxy CONNECT 403 for `owen1night.github.io`; the public web connector also could not access the site. No proxy bypass was attempted. GitHub deployment results and browser acceptance must therefore be distinguished; this limitation does not imply that the public site is down. Release/CI results are reported in the final handoff.
+
+Release rechecks passed locally: type/content checks, all test files, production build and diff whitespace check. Two deployment-preflight unit cases cover all four variable requirements, the repository subpath and redacted rejection of invalid keys. A 360px browser failure test used a local test widget and a reserved failing Auth endpoint: each failed sign-up remounted the challenge, cleared the consumed token, and sent only one request per submit. No real CAPTCHA was solved, no real user/room was created, and no JavaScript errors or horizontal overflow occurred.

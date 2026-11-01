@@ -9,7 +9,8 @@
     "preview": "vite preview --host 0.0.0.0",
     "check": "tsc -b && node --import tsx scripts/check-content.ts",
     "test": "node --import tsx --test src/lib/*.test.ts supabase/tests/*.test.ts",
-    "test:db": "node --import tsx supabase/tests/security.test.ts"
+    "test:db": "node --import tsx supabase/tests/security.test.ts",
+    "check:deploy": "node --import tsx scripts/check-deploy-config.ts"
   },
   "dependencies": {
     "@fontsource/noto-sans": "^5.2.8",
