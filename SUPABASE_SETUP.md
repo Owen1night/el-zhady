@@ -1,14 +1,14 @@
 # Stage 2 setup and acceptance record
 
-The public site is `https://owen1night.github.io/el-zhady/`. The owner has now authorised PR #2 to be marked ready, merged and deployed after review/checks. Earlier instructions to keep the PR undeployed applied to the implementation stage and are superseded by this release authorisation.
+The public Stage 2 site is `https://owen1night.github.io/el-zhady/`. Stage 2 was merged/deployed before the current Stage 3 task. Stage 3 remains a review branch; do not merge/deploy it. Its two new migrations and Cron instructions are in STAGE3_SETUP.md. These Stage 2 reference steps must not trigger a repeat of completed setup.
 
 ## Current reported setup — do not repeat the migration
 
-On 2026-11-01 the owner reported that the initial migration was applied successfully **once through Supabase SQL Editor**, the exact site/redirect URL above is configured, anonymous and Google Auth are enabled, Google is in Testing with the owner's account added, Turnstile is enabled, and all four public GitHub Actions variables are saved. Google/CAPTCHA secrets remain only in Supabase. Admin access has **not** been granted.
+On 2026-11-01 the owner reported that the initial migration was applied successfully **once through Supabase SQL Editor**, the exact site/redirect URL above is configured, anonymous and Google Auth are enabled, Google is in Testing with the owner's account added, Turnstile is enabled, and all four public GitHub Actions variables are saved. Google/CAPTCHA secrets remain only in Supabase. The owner subsequently reported permanent login/profile persistence, admin room creation, registered joining, physical-iPhone anonymous QR joining and locked-room rejection working. The existing admin grant is therefore owner-reported working; do not create a duplicate grant.
 
 This is the owner's setup report, not an independently inspected database/provider configuration. See `supabase/MIGRATION_STATUS.md`. **Do not rerun the initial migration.** Its repository SQL remains unchanged. CLI migration-history reconciliation is still necessary before any future `db push`; the current release workflow never applies database migrations. The setup sections below are reference instructions for a fresh project, not a request to repeat completed setup.
 
-The release preflight in both PR CI and Pages validates all four public variable values without printing them. Successful preflight establishes build configuration presence/shape, not Google consent, CAPTCHA, RLS or Realtime functionality. Actual login/lobby acceptance remains a separate check after release. Never provide private credentials to the assistant.
+The release preflight in both PR CI and Pages validates all four public variable values without printing them. Successful preflight establishes build configuration presence/shape, not Google consent, CAPTCHA, RLS or Realtime functionality. The owner-reported Stage 2 acceptance above is distinct from independently verified Stage 3 hosted gameplay, which is still pending. Never provide private credentials to the assistant.
 
 ## 1. Create/select the backend project
 

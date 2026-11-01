@@ -1,3 +1,5 @@
+> Historical Stage 1/2 implementation record below. Current Stage 3 evidence and remaining hosted/physical checks are in [STAGE3_VERIFICATION.md](STAGE3_VERIFICATION.md). The owner now reports Stage 2 deployed and the login/profile/admin/registered join/physical-iPhone guest QR/locked-room flows working; older pending-setup statements below describe earlier test availability, not current reported status.
+
 # Verification — 2026-11-01
 
 Earlier entries below are the historical Stage 1 record, not current setup instructions. The latest Stage 2 record at the end supersedes older deployment/configuration status. Current setup instructions are in SUPABASE_SETUP.md.

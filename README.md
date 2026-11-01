@@ -1,12 +1,12 @@
 # el-zhady
 
-«Ел жады: Қазақстан, 1939–1953» — Kazakh-language university history website. The original repository heading is retained.
+«Ел жады: Қазақстан, 1939–1953» — Kazakh-language university history website. Existing Stage 2 site: **https://owen1night.github.io/el-zhady/**.
 
-Existing public foundation: **https://owen1night.github.io/el-zhady/** (URL supplied by the owner). Stage 2 adds reviewable Supabase authentication, private profiles and live-room infrastructure. The owner has authorised Stage 2 release after PR review and passing checks. The owner reports external setup complete; live Auth/provider acceptance has not yet been independently verified. See SUPABASE_SETUP.md and supabase/MIGRATION_STATUS.md for the setup/migration record. Public history pages stay available without accounts or a backend connection. Historical content, images/maps/videos, practice games and competition gameplay remain unfinished and labelled; there are no invented results.
+**Stage 3 is a review branch, not merged/deployed.** It adds one complete ten-question live quiz: server timing/scoring, registered + anonymous participation, host screen, reveals/leaderboards/podium, reconnect, cancellation and persisted competition history. Other four activities, independent practice and narrative historical/media collections remain unfinished and labelled. Live points do not populate practice /100. The owner reports Stage 2 login/profile/admin/join/physical-iPhone QR/lock flows working; Stage 3 hosted acceptance is still pending.
 
-## Local development and verification
+## Local development / preview
 
-Use Node.js 22+ (CI uses Node 22) and npm:
+Node.js 22+ and npm:
 
 ```bash
 cd /workspace/el-zhady
@@ -17,54 +17,46 @@ npm run build
 npm run dev -- --port 5173
 ```
 
-On your own clone, replace the `cd` path. To inspect the production build locally:
+Use your own clone path instead of `/workspace/el-zhady` if different. Exact production-build preview command:
 
 ```bash
-cd /workspace/el-zhady && npm run preview -- --port 4173
+npm run preview -- --port 4173
 ```
 
-Open `http://localhost:4173` on the machine running the server. This is local QA, not a cloud-forwarded link or a new public deployment. The existing Pages URL above is the public foundation.
+Open `http://localhost:4173` **on that machine**. This is local preview, not a cloud-forwarded/public URL. Missing Supabase config keeps all historical sections readable and shows an honest service notice for account/room features. No local mock profiles/results are substituted.
 
-`check` runs TypeScript and editorial structure checks. `npm test` runs client rules and isolated PostgreSQL migration/RLS/RPC tests using PGlite; `npm run test:db` prints the database suite directly. Test-only identities/results are never used by the application. There is no browser mock backend, no local profile/result fallback and no lint script. See VERIFICATION.md for actual evidence and limits.
+`check` runs types + public editorial structure checks. `test` runs client/OAuth/config rules and fresh isolated SQL/RLS/RPC tests (PGlite by default). `build` also checks the browser bundle excludes the ten private prompts, seed IDs and marker. No lint script exists. For real multi-connection PostgreSQL and three-context Chromium tests, see [STAGE3_VERIFICATION.md](STAGE3_VERIFICATION.md). CI uses an isolated PostgreSQL 17 service for the live SQL races, Node 22 and the existing four public build variables.
 
-## Stage 2 configuration — finish before hosted acceptance
+## Backend configuration
 
-Follow **SUPABASE_SETUP.md** for the reported setup and exact acceptance/admin steps. The owner reports Google/anonymous Auth, Turnstile, redirects and all four public variables configured. The initial migration was applied manually once through SQL Editor; **do not rerun it**. No private credentials or privileged dashboard access have been supplied to this workspace. Grant your own permanent User UID admin only through the guarded SQL after first Google login.
+Stage 2 setup is documented in [SUPABASE_SETUP.md](SUPABASE_SETUP.md). The initial migration was manually applied **once**, as reported by the owner. **Do not rerun or edit it.** Stage 3 needs only its two new migrations plus Supabase Cron; exact one-time SQL Editor steps, verification queries and a laptop/iPhone acceptance checklist are in [STAGE3_SETUP.md](STAGE3_SETUP.md). No hosted access was available to apply/verify these changes. Pages never applies migrations.
 
-`.env.example` documents only public values. Copy to ignored `.env.local` for development and set actual values:
+Copy `.env.example` to ignored `.env.local` for local authenticated development; use only public values:
 
-- `VITE_PUBLIC_SITE_URL`: actual HTTPS site root with repository subpath and trailing slash. Defaults to the owner-provided public URL above; never derived from localhost.
-- `VITE_SUPABASE_URL`: actual HTTPS Supabase project URL.
-- `VITE_SUPABASE_PUBLISHABLE_KEY`: actual public publishable key (or legacy `anon` key). **Never** use a secret/service-role key.
-- `VITE_TURNSTILE_SITE_KEY`: optional public site key, required if Supabase CAPTCHA is enabled. The CAPTCHA secret belongs only in Supabase.
+- `VITE_PUBLIC_SITE_URL`: actual HTTPS public root `https://owen1night.github.io/el-zhady/`, never localhost.
+- `VITE_SUPABASE_URL`: your project's HTTPS URL.
+- `VITE_SUPABASE_PUBLISHABLE_KEY`: public publishable or legacy anon key, never secret/service-role.
+- `VITE_TURNSTILE_SITE_KEY`: public CAPTCHA site key if enabled in Supabase.
 
-No Google client secret, database password, service-role key or admin password belongs in frontend environment files, GitHub build variables or Git. Missing/invalid configuration shows an honest service-unavailable state for account/lobby features; all public sections remain accessible. Configuration changes require a new build.
+Google/CAPTCHA secrets stay in Supabase. No OAuth secret, database password or admin/service-role key belongs in browser code or build variables. Existing permanent admin grants remain valid. See SUPABASE_SETUP.md for secure owner SQL designation; do not grant by name or metadata.
 
-## GitHub Pages — preserve existing hosting
+## Later deployment — not authorised by this Stage 3 task
 
-The repository is `Owen1night/el-zhady`, default branch `main`. Vite `base: './'` emits relative assets; hash navigation prevents refreshed-route 404s under `/el-zhady/`. OAuth uses the existing index at `/el-zhady/?code=...` and restores a whitelisted hash destination; no server callback route or rewrite is needed.
+1. Review this PR and the new SQL. Follow STAGE3_SETUP.md for the two new migrations and successful one-second Cron job; retain Stage 2 Auth/CAPTCHA/redirect configuration. Record manual application status.
+2. Keep GitHub **Settings → Pages → Build and deployment → Source → GitHub Actions**. Keep the four public values in **Settings → Secrets and variables → Actions → Variables**.
+3. Run checks, complete hosted acceptance, and obtain separate release approval. Only then merge to `main`; the existing `.github/workflows/pages.yml` deploys on main push/manual dispatch. This task does neither.
+4. Wait for build **and** deployment success. Check the actual HTTPS page/assets, refreshed hash navigation, Google callback `/el-zhady/?code=…`, QR guest entry, multiplayer and saved history on actual devices. A local build is not deployment evidence.
 
-The existing `.github/workflows/pages.yml` deploys only on a push to `main` or explicit manual dispatch. Pull-request CI in `.github/workflows/checks.yml` installs, type/content checks, tests the database security contract and builds with Node 22. PR #2 may now be marked ready and merged after passing checks under the owner's explicit release authorisation. No other hosting provider is introduced. Both PR CI and Pages run `npm run check:deploy` with all four public repository variables; missing/invalid values stop the build without printing supplied values.
+Vite `base: './'`, bundled Kazakh fonts and hash routes preserve `/el-zhady/` hosting without refreshed-route 404s. QR uses the configured public URL. No new hosting provider or visitor payment/account requirement for history/guest competition is introduced.
 
-For a later explicitly approved release:
+## Structure
 
-1. In GitHub **Settings → Pages → Build and deployment → Source**, retain **GitHub Actions**.
-2. In **Settings → Secrets and variables → Actions → Variables**, set the four public build variables above using the actual project. Never add privileged backend credentials. A variable change alone does not deploy the branch.
-3. Run checks and hosted acceptance steps in SUPABASE_SETUP.md, review the PR, and merge only after release approval. The push to `main` triggers the existing deployment workflow. Do not force-push or overwrite unrelated changes.
-4. Wait for successful build AND deployment jobs. Inspect the actual returned HTTPS URL, its JS/CSS/fonts, hash-route refresh, OAuth redirect, guest entry and live lobby updates. Test QR using a phone. A successful local build is not publication evidence.
+- [PROJECT_SPEC.md](PROJECT_SPEC.md): architecture, routes and timing/scoring decisions.
+- [REQUIREMENTS.md](REQUIREMENTS.md): assessment and Stage 2/3 completion status.
+- [CONTENT_GUIDE.md](CONTENT_GUIDE.md) / [LIVE_QUIZ_CONTENT.md](LIVE_QUIZ_CONTENT.md): source rules and actually opened question references.
+- [SECURITY.md](SECURITY.md): identity, RLS, private keys, disclosure and race boundaries.
+- [STAGE3_SETUP.md](STAGE3_SETUP.md) / [STAGE3_VERIFICATION.md](STAGE3_VERIFICATION.md): manual setup and actual test limits.
+- `src/data/`: public editorial types/plans; `src/auth/`, `backend/`, `features/`: Stage 2 flows; `src/live/`: live quiz UI/typed projections only.
+- `supabase/migrations/`: versioned production SQL; `supabase/manual/`: owner Cron setup; `supabase/tests/`, `scripts/testing/`: isolated dev-only tests.
 
-## Files and product boundaries
-
-- PROJECT_SPEC.md — architecture, routes and product decisions.
-- REQUIREMENTS.md — historical assessment plus Stage 2 status, with hosted work pending.
-- CONTENT_GUIDE.md — historical source/attribution rules; no public answer keys.
-- SUPABASE_SETUP.md — exact external setup and secure admin designation.
-- SECURITY.md — RLS, identity, privacy, RPC, scoring and abuse boundaries.
-- VERIFICATION.md — checks actually run and unresolved integration/device tests.
-- `supabase/migrations/` — reviewed versioned SQL; `supabase/tests/` — test-only PostgreSQL/Auth-boundary harness.
-- `src/auth/`, `src/backend/`, `src/features/` — actual Supabase integration and account/lobby UI.
-- `src/data/` — public historical schemas, empty collections and editorial plans.
-
-Permanent accounts get an editable display name, five honest practice score slots (20 each, 100 total) and separate competition history. Guests join through real anonymous Auth, with no Google/email requirement or permanent profile. Result identity uses internal IDs, never a name match. Clearing browser data/changing devices can lose automatic guest recovery.
-
-The header monitor control retains presentation mode. Existing local storage contains only display preferences/visited sections; those are not grades. Auth storage holds Supabase's session for refresh recovery. Temporary OAuth destination and admin idempotency IDs are client state, not a substitute for server persistence. Admin room creation/lock/unlock/remove/close are protected by database logic. No fake Start button, live gameplay, client scoring or sample production results have been added.
+Browser storage preserves display preferences and Auth sessions, not authoritative scores. Reset clears only preferences. PostgreSQL stores competition answers/results immediately; guest recovery depends on retaining that browser's Auth session. The header monitor control enlarges presentation text. Motion respects reduced motion and never delays answer submission; no automatic audio.
