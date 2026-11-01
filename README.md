@@ -35,18 +35,18 @@ Run `npm ci` and `npm run build` first on a fresh clone. There is no lint script
 
 ## GitHub Pages deployment
 
-The existing Git remote targets `Owen1night/el-zhady`. Its default-branch/publication configuration must be checked by the repository owner. No credentials are included in this project. The supplied workflow deploys on pushes to `main` or manual dispatch. This workspace currently uses branch `work`.
+The existing Git remote targets `Owen1night/el-zhady`. Its default-branch/publication configuration must be checked by the repository owner. No credentials are included in this project. The supplied workflow deploys on pushes to `main` or manual dispatch. This workspace currently uses branch `codex/el-zhady-foundation`; its source changes have been committed and pushed. Nothing has been merged into `main`.
 
 1. Use a **public** GitHub repository. Keep the existing origin if it is the intended repository; otherwise change it only to your actual repository URL. Do not paste credentials into files. Inspect `git status` and review changes before committing.
-2. Commit the source, lockfile, docs and `.github/workflows/pages.yml`; do not commit `node_modules`, `dist`, `.env` or `work`. Push your working branch and merge it into `main`. If the deployment branch has another name, change `on.push.branches` to that actual branch before merging. Example for the current working branch:
+2. Commit the source, lockfile, docs and `.github/workflows/pages.yml`; do not commit `node_modules`, `dist`, `.env` or `work`. Push your working branch and merge it into `main`. If the deployment branch has another name, change `on.push.branches` to that actual branch before merging. Example for the current foundation branch:
 
    ```bash
    git add .
    git commit -m "Build Kazakh history website foundation"
-   git push -u origin work
+   git push -u origin codex/el-zhady-foundation
    ```
 
-   Open a pull request from `work` into the repository's intended `main` branch and merge after review. Do not force-push or overwrite existing work. On a local clone you may instead be on `main`; inspect `git branch --show-current` first.
+   Open a pull request from `codex/el-zhady-foundation` into the repository's intended `main` branch and merge after review. Do not force-push or overwrite existing work. On a local clone you may instead be on `main`; inspect `git branch --show-current` first.
 3. In GitHub: **Settings → Pages → Build and deployment → Source → GitHub Actions**. Ensure Actions is enabled. On `main`, run **Actions → Deploy GitHub Pages → Run workflow** if a push has not triggered it.
 4. The workflow installs using `npm ci`, checks, tests, builds `dist/`, uploads it, and deploys through GitHub Pages. It requires the workflow's declared `pages: write` and `id-token: write` permissions. If organization policy blocks Pages, resolve that in the repository settings. Do not substitute a paid service.
 5. Wait for both jobs to succeed. Copy the **actual URL returned by the deployment**, rather than assuming the repository exists publicly or inventing a URL.
@@ -68,3 +68,7 @@ GitHub Pages serves the `dist` artifact only. Vite's relative `base: './'` and h
 - `src/lib/` — storage, URL and editorial validators.
 
 The header's monitor button toggles larger presentation text. Use the laptop's normal display settings for HDMI. Preferences and visited sections persist only on the current browser/device; they are not a grade. Results → Тазарту resets this app's preferences; no other website's storage is cleared.
+
+## Cloud preview follow-up
+
+The cloud preview server was started on `0.0.0.0:4173` using `npm run preview -- --port 4173 --strictPort`. It returns the built site inside the cloud environment. The available tools do not expose an inbound Web preview/port-forwarding operation, and no user-accessible HTTPS preview URL has been issued or verified. A loopback or private network address is not a laptop-accessible preview link. If the cloud interface offers a Web preview control, forward port 4173 and use its actual generated URL. This temporary preview is separate from GitHub Pages publication; public share/QR remains unconfigured.

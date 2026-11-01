@@ -2,7 +2,7 @@
 
 ## Repository inspection and preservation
 
-Inspected `/workspace` and the existing `/workspace/el-zhady` checkout before writing. The checkout contained its Git history/remote and only `README.md` with `# el-zhady`. Kept the repository, remote, branch and README heading. No existing application was overwritten. No commits were pushed and no repository or hosting access settings were changed.
+Inspected `/workspace` and the existing `/workspace/el-zhady` checkout before writing. The checkout contained its Git history/remote and only `README.md` with `# el-zhady`. Kept the repository, remote, branch and README heading. No existing application was overwritten. At the end of the initial stage, no commits had been pushed and no repository or hosting access settings had been changed. See the follow-up below for the subsequent branch push.
 
 ## Commands actually run
 
@@ -48,3 +48,9 @@ A GitHub CLI authentication check did not succeed in the default sandbox. No pub
 ## Delivery-folder limitation
 
 The complete source and documentation remain in `/workspace/el-zhady`. Optional downloadable packaging could not be created: the designated `/codex/browser/projectless/0001-build-the-foundation-of-a-kazakh-language-univer/output` path does not exist in this managed environment and its `/codex` parent is read-only. A scoped filesystem-permission retry returned the same read-only error. No downloadable archive or output-folder link is claimed. This limitation does not affect source files, browser checks or the successful build.
+
+## Follow-up: branch preservation and cloud preview
+
+The previously uncommitted foundation was committed as `fee0b37` on new branch `codex/el-zhady-foundation` and pushed successfully to `origin`. No merge into `main` and no GitHub Pages deployment was performed. Follow-up documentation records the new branch rather than the original `work` branch.
+
+Started the actual production preview with `npm run preview -- --port 4173 --strictPort`, bound to `0.0.0.0`. A real HTTP request inside the environment returned HTTP 200 with the built application HTML. The available cloud tools, document sessions and runtime helpers exposed no supported inbound Web preview forwarding operation; no connected document sessions were found. No public preview URL is claimed or marked checked. A generated cloud Web preview URL is still required to verify laptop access.
