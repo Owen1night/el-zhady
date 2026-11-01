@@ -99,4 +99,4 @@ See `VERIFICATION.md` for the actual checks and limits. The final assessment is 
 | Desktop/mobile layouts | 1440px/360px emulation, public/account unavailable screens | Browser tested; physical iPhone/Android and live private screens pending |
 | Two-session lobby updates | Real Supabase Auth and Realtime required | Blocked by missing project/config; no simulated success claimed |
 | Setup/admin/security documentation | SUPABASE_SETUP.md, SECURITY.md and updated existing docs | Created |
-| Commit, push, PR; no merge/deploy | `codex/stage-2-auth-lobbies` | Delivery status recorded in final handoff; Stage 2 stays unmerged/undeployed |
+| Commit, push, PR; no merge/deploy | `codex/stage-2-auth-lobbies` | Complete — pushed, draft PR #2 opened; Stage 2 stays unmerged/undeployed |

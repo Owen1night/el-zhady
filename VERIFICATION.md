@@ -98,3 +98,8 @@ Code review also corrected Retry buttons accidentally acting as form submits and
 No real Supabase project URL/public key, Google provider configuration or hosted migration was available. Therefore: actual Google first/subsequent sign-in/sign-out, anonymous token persistence across real refreshes/devices, hosted profile UI CRUD, live admin/lobby controls, real QR scanning, true two-client Realtime/polling reconnection, live CAPTCHA verification, production RLS/PostgREST integration and a final hosted network privacy audit could not run. Two isolated browser contexts above were NOT a live multiplayer test. Physical iPhone Safari/Android Chrome, WebKit and HDMI hardware were not tested. Do not mark these integration/device requirements complete.
 
 SUPABASE_SETUP.md gives exact project/migration/Auth/Google/URL/CAPTCHA/build-variable/admin steps and hosted acceptance cases. SECURITY.md records the authority and privacy model and per-identity abuse-control limits. No external services, admin grant or scoring service is claimed configured. No Stage 2 merge/deployment has been performed.
+
+
+### GitHub delivery evidence
+
+Implementation commit `127cbad` is pushed on `codex/stage-2-auth-lobbies`; draft PR **https://github.com/Owen1night/el-zhady/pull/2** targets main and is unmerged. GitHub Node 22 CI at **https://github.com/Owen1night/el-zhady/actions/runs/41297889042** passed dependency installation, type/content checks, tests and build. Remote main remains `3dbcde5`; no Stage 2 Pages dispatch or external configuration/migration was performed. A follow-up documentation-only commit records this actual delivery evidence. The internal Stage 2 QA server was stopped after tests.
