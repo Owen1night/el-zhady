@@ -1,24 +1,27 @@
 {
   "name": "el-zhady",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 0.0.0.0",
     "check": "tsc -b && node --import tsx scripts/check-content.ts",
-    "test": "node --import tsx --test src/lib/*.test.ts"
+    "test": "node --import tsx --test src/lib/*.test.ts supabase/tests/*.test.ts",
+    "test:db": "node --import tsx supabase/tests/security.test.ts"
   },
   "dependencies": {
     "@fontsource/noto-sans": "^5.2.8",
     "@fontsource/noto-serif": "^5.2.8",
+    "@supabase/supabase-js": "^2.118.0",
     "lucide-react": "^0.468.0",
     "qrcode": "^1.5.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.14",
     "@types/node": "^22.10.0",
     "@types/qrcode": "^1.5.5",
     "@types/react": "^19.0.0",

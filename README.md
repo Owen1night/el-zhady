@@ -1,74 +1,70 @@
 # el-zhady
 
-«Ел жады: Қазақстан, 1939–1953» — a Kazakh-language university history website foundation. The original repository heading above is retained. React + TypeScript + Vite, fully static, no visitor accounts/backend/paid services.
+«Ел жады: Қазақстан, 1939–1953» — Kazakh-language university history website. The original repository heading is retained.
 
-**Stage one only.** Historical collections are empty. Ten thesis themes, thirty facts, at least eleven heroes plus postwar figures, three videos, five games and their scores still need sourced implementation. Draft screens do not count as finished historical content. The site has not been confirmed published.
+Existing public foundation: **https://owen1night.github.io/el-zhady/** (URL supplied by the owner). Stage 2 adds reviewable Supabase authentication, private profiles and live-room infrastructure. **Stage 2 is not merged or deployed.** Its backend has not been configured or tested against a hosted project. Public history pages stay available without accounts or a backend connection. Historical content, images/maps/videos, practice games and competition gameplay remain unfinished and labelled; there are no invented results.
 
-## Prerequisites and local development
+## Local development and verification
 
-Use Node.js 22 and npm. From this checkout:
+Use Node.js 22+ (CI uses Node 22) and npm:
 
 ```bash
 cd /workspace/el-zhady
 npm ci
-npm run dev -- --port 5173
-```
-
-Open `http://localhost:5173`. On your own laptop after cloning, replace the `cd` path with your checkout path. For a real phone on the same Wi-Fi, open your laptop's LAN IP at port 5173. That is a temporary local preview, not a public website. Hosting/forwarding rules may prevent phone access to a remote development environment.
-
-## Checks and production preview
-
-```bash
 npm run check
 npm test
 npm run build
-npm run preview -- --port 4173
+npm run dev -- --port 5173
 ```
 
-Open `http://localhost:4173`. To preview the completed build from the existing checkout, the exact command is:
+On your own clone, replace the `cd` path. To inspect the production build locally:
 
 ```bash
 cd /workspace/el-zhady && npm run preview -- --port 4173
 ```
 
-Run `npm ci` and `npm run build` first on a fresh clone. There is no lint script; `check` performs TypeScript and editorial structure checks. Tests cover public-URL gating and rejection of unsourced verification. See VERIFICATION.md for browser checks actually performed and remaining limits.
+Open `http://localhost:4173` on the machine running the server. This is local QA, not a cloud-forwarded link or a new public deployment. The existing Pages URL above is the public foundation.
 
-## GitHub Pages deployment
+`check` runs TypeScript and editorial structure checks. `npm test` runs client rules and isolated PostgreSQL migration/RLS/RPC tests using PGlite; `npm run test:db` prints the database suite directly. Test-only identities/results are never used by the application. There is no browser mock backend, no local profile/result fallback and no lint script. See VERIFICATION.md for actual evidence and limits.
 
-The existing Git remote targets `Owen1night/el-zhady`. Its default-branch/publication configuration must be checked by the repository owner. No credentials are included in this project. The supplied workflow deploys on pushes to `main` or manual dispatch. This workspace currently uses branch `codex/el-zhady-foundation`; its source changes have been committed and pushed. Nothing has been merged into `main`.
+## Stage 2 configuration — finish before hosted acceptance
 
-1. Use a **public** GitHub repository. Keep the existing origin if it is the intended repository; otherwise change it only to your actual repository URL. Do not paste credentials into files. Inspect `git status` and review changes before committing.
-2. Commit the source, lockfile, docs and `.github/workflows/pages.yml`; do not commit `node_modules`, `dist`, `.env` or `work`. Push your working branch and merge it into `main`. If the deployment branch has another name, change `on.push.branches` to that actual branch before merging. Example for the current foundation branch:
+Follow **SUPABASE_SETUP.md** for exact steps: create/select the actual project, apply the versioned migration, enable Google and anonymous Auth, set URL allowlists, configure CAPTCHA/rate limits, set the public build variables, and grant your own permanent User UID admin through trusted SQL. No project or Google setup is assumed to exist.
 
-   ```bash
-   git add .
-   git commit -m "Build Kazakh history website foundation"
-   git push -u origin codex/el-zhady-foundation
-   ```
+`.env.example` documents only public values. Copy to ignored `.env.local` for development and set actual values:
 
-   Open a pull request from `codex/el-zhady-foundation` into the repository's intended `main` branch and merge after review. Do not force-push or overwrite existing work. On a local clone you may instead be on `main`; inspect `git branch --show-current` first.
-3. In GitHub: **Settings → Pages → Build and deployment → Source → GitHub Actions**. Ensure Actions is enabled. On `main`, run **Actions → Deploy GitHub Pages → Run workflow** if a push has not triggered it.
-4. The workflow installs using `npm ci`, checks, tests, builds `dist/`, uploads it, and deploys through GitHub Pages. It requires the workflow's declared `pages: write` and `id-token: write` permissions. If organization policy blocks Pages, resolve that in the repository settings. Do not substitute a paid service.
-5. Wait for both jobs to succeed. Copy the **actual URL returned by the deployment**, rather than assuming the repository exists publicly or inventing a URL.
-6. Open that URL without signing in. Navigate to all sections; refresh a `#/timeline` URL; check fonts/assets under the repository prefix and test on phones. Only after this succeeds may you call the site published.
-7. Configure sharing after checking that real public URL: **Settings → Secrets and variables → Actions → Variables → New repository variable**, name `VITE_PUBLIC_SITE_URL`, value the full checked HTTPS site URL including repository path and trailing slash. Re-run the workflow on `main`. This is a public build variable, not a secret. Check the QR code on a phone and copied link after the second deployment.
+- `VITE_PUBLIC_SITE_URL`: actual HTTPS site root with repository subpath and trailing slash. Defaults to the owner-provided public URL above; never derived from localhost.
+- `VITE_SUPABASE_URL`: actual HTTPS Supabase project URL.
+- `VITE_SUPABASE_PUBLISHABLE_KEY`: actual public publishable key (or legacy `anon` key). **Never** use a secret/service-role key.
+- `VITE_TURNSTILE_SITE_KEY`: optional public site key, required if Supabase CAPTCHA is enabled. The CAPTCHA secret belongs only in Supabase.
 
-For local production-share testing, copy `.env.example` to `.env.local`, set the same real checked URL, and rebuild. Do not use localhost or a guessed public URL. Blank or invalid values show an honest unconfigured-share message. The app never derives its public share link from `window.location`.
+No Google client secret, database password, service-role key or admin password belongs in frontend environment files, GitHub build variables or Git. Missing/invalid configuration shows an honest service-unavailable state for account/lobby features; all public sections remain accessible. Configuration changes require a new build.
 
-GitHub Pages serves the `dist` artifact only. Vite's relative `base: './'` and hash navigation support `/repository-name/` without server rewrites or SPA 404 hacks. New assets must be imported or use `import.meta.env.BASE_URL`; see CONTENT_GUIDE.md. The QR package runs in the browser; there is no tracking or hosted QR service.
+## GitHub Pages — preserve existing hosting
 
-## Files and ongoing work
+The repository is `Owen1night/el-zhady`, default branch `main`. Vite `base: './'` emits relative assets; hash navigation prevents refreshed-route 404s under `/el-zhady/`. OAuth uses the existing index at `/el-zhady/?code=...` and restores a whitelisted hash destination; no server callback route or rewrite is needed.
 
-- PROJECT_SPEC.md — architecture, sections, scoring/storage plan and design decisions.
-- REQUIREMENTS.md — evidence-based assessment checklist.
-- CONTENT_GUIDE.md — editorial schemas, source standards and implementation rules.
-- VERIFICATION.md — actual checks and limits.
-- `src/data/` — all typed historical collections and editorial plans.
-- `src/components/`, `src/App.tsx`, `src/styles.css` — responsive shell.
-- `src/lib/` — storage, URL and editorial validators.
+The existing `.github/workflows/pages.yml` deploys only on a push to `main` or explicit manual dispatch. Pull-request CI in `.github/workflows/checks.yml` installs, type/content checks, tests the database security contract and builds with Node 22. **Do not merge or manually dispatch Pages for this Stage 2 branch yet.** The PR is for review and setup first; no other hosting provider is introduced.
 
-The header's monitor button toggles larger presentation text. Use the laptop's normal display settings for HDMI. Preferences and visited sections persist only on the current browser/device; they are not a grade. Results → Тазарту resets this app's preferences; no other website's storage is cleared.
+For a later explicitly approved release:
 
-## Cloud preview follow-up
+1. In GitHub **Settings → Pages → Build and deployment → Source**, retain **GitHub Actions**.
+2. In **Settings → Secrets and variables → Actions → Variables**, set the four public build variables above using the actual project. Never add privileged backend credentials. A variable change alone does not deploy the branch.
+3. Run checks and hosted acceptance steps in SUPABASE_SETUP.md, review the PR, and merge only after release approval. The push to `main` triggers the existing deployment workflow. Do not force-push or overwrite unrelated changes.
+4. Wait for successful build AND deployment jobs. Inspect the actual returned HTTPS URL, its JS/CSS/fonts, hash-route refresh, OAuth redirect, guest entry and live lobby updates. Test QR using a phone. A successful local build is not publication evidence.
 
-The cloud preview server was started on `0.0.0.0:4173` using `npm run preview -- --port 4173 --strictPort`. It returns the built site inside the cloud environment. The available tools do not expose an inbound Web preview/port-forwarding operation, and no user-accessible HTTPS preview URL has been issued or verified. A loopback or private network address is not a laptop-accessible preview link. If the cloud interface offers a Web preview control, forward port 4173 and use its actual generated URL. This temporary preview is separate from GitHub Pages publication; public share/QR remains unconfigured.
+## Files and product boundaries
+
+- PROJECT_SPEC.md — architecture, routes and product decisions.
+- REQUIREMENTS.md — historical assessment plus Stage 2 status, with hosted work pending.
+- CONTENT_GUIDE.md — historical source/attribution rules; no public answer keys.
+- SUPABASE_SETUP.md — exact external setup and secure admin designation.
+- SECURITY.md — RLS, identity, privacy, RPC, scoring and abuse boundaries.
+- VERIFICATION.md — checks actually run and unresolved integration/device tests.
+- `supabase/migrations/` — reviewed versioned SQL; `supabase/tests/` — test-only PostgreSQL/Auth-boundary harness.
+- `src/auth/`, `src/backend/`, `src/features/` — actual Supabase integration and account/lobby UI.
+- `src/data/` — public historical schemas, empty collections and editorial plans.
+
+Permanent accounts get an editable display name, five honest practice score slots (20 each, 100 total) and separate competition history. Guests join through real anonymous Auth, with no Google/email requirement or permanent profile. Result identity uses internal IDs, never a name match. Clearing browser data/changing devices can lose automatic guest recovery.
+
+The header monitor control retains presentation mode. Existing local storage contains only display preferences/visited sections; those are not grades. Auth storage holds Supabase's session for refresh recovery. Temporary OAuth destination and admin idempotency IDs are client state, not a substitute for server persistence. Admin room creation/lock/unlock/remove/close are protected by database logic. No fake Start button, live gameplay, client scoring or sample production results have been added.

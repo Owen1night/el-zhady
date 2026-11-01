@@ -60,3 +60,12 @@ Use `ActivityResult` with content version, earned/possible score and completion 
 ## Publication checklist
 
 Source/reviewer metadata present; no placeholder counted as content; all required quantities independently checked; media and links work; five complete and different game loops; results and reset verified; mobile/keyboard/reduced-motion checks; no overflow at 360px; actual Pages URL checked before configuring share/QR. Update REQUIREMENTS.md from evidence, never from intent.
+
+
+## Stage 2 amendment: public history, private answer keys
+
+Historical texts, images, maps and videos remain public. Their research/verification status has not changed. Do not gate public history behind an account.
+
+The original frontend `ActivityQuestion`/`Answer` types are authoring placeholders, not permission to distribute correct answers. Do not populate and ship answer keys in browser imports or publicly readable database tables. A later server-authoritative scorer must keep correct-answer material and supporting references in a private backend schema (reserved `el_zhady_private.answer_keys`) and expose only an appropriate question projection and reviewed post-answer explanations. Clients cannot submit scores; all score writes belong to protected server logic. Historical source requirements still apply to every scored explanation.
+
+Practice now requires a permanent account and stores authoritative results in PostgreSQL for cross-device access. The original future device-local game-result plan is superseded. Cosmetic visited-section preferences are not progress. Competition results are separate name/participant-ID snapshots: guests have no permanent profile and matching names must never be used to attach results to accounts. There is no gameplay/scorer or real result content yet.

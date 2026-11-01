@@ -4,3 +4,5 @@ work/
 .env
 .env.local
 *.tsbuildinfo
+supabase/.temp/
+supabase/.branches/
