@@ -22,9 +22,15 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm test
-      - run: npm run build
+      - name: Validate public deployment configuration and build
+        run: |
+          npm run check:deploy
+          npm run build
         env:
           VITE_PUBLIC_SITE_URL: ${{ vars.VITE_PUBLIC_SITE_URL }}
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_TURNSTILE_SITE_KEY: ${{ vars.VITE_TURNSTILE_SITE_KEY }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

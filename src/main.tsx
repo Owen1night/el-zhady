@@ -10,5 +10,6 @@ import '@fontsource/noto-serif/cyrillic-ext-400.css';
 import '@fontsource/noto-serif/cyrillic-400.css';
 import '@fontsource/noto-serif/latin-400.css';
 import App from './App';
+import { AuthProvider } from './auth/AuthProvider';
 import './styles.css';
-ReactDOM.createRoot(document.getElementById('root')!).render(<React.StrictMode><App /></React.StrictMode>);
+ReactDOM.createRoot(document.getElementById('root')!).render(<React.StrictMode><AuthProvider><App /></AuthProvider></React.StrictMode>);
