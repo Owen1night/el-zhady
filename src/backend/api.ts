@@ -2,7 +2,7 @@ import { supabase } from './client';
 import { bounded, ServiceError, serviceError } from './errors';
 import type { CompetitionHistory, Lobby, PracticeResult, Profile, Room } from './contracts';
 function client() { if (!supabase) throw new ServiceError('UNCONFIGURED'); return supabase; }
-async function rpc<T>(name: string, args?: Record<string, unknown>): Promise<T> {
+export async function rpc<T>(name: string, args?: Record<string, unknown>): Promise<T> {
   try {
     const { data, error } = await bounded(client().rpc(name, args));
     if (error) throw error;
