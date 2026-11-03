@@ -5,6 +5,8 @@ import { activityPlan, facts, figures, periods, sectionPlans, sections, sources,
 import type { SectionId } from './data/types';
 import { siteUrl } from './backend/config';
 import { useAuth } from './auth/AuthProvider';
+import { readRoomNotice, clearRoomNotice } from './lib/room-exit';
+import { leaveLive } from './live/navigationGuard';
 import { mayNavigate } from './live/navigationGuard';
 import { parseRoute } from './lib/navigation';
 import { AuthPage } from './features/AuthPage';
@@ -33,6 +35,12 @@ export default function App() {
   const auth = useAuth();
   const [location, setLocation] = useState(() => parseRoute(window.location.hash));
   const current = location.name;
+  const [roomNotice, setRoomNotice] = useState(readRoomNotice);
+  useEffect(() => {
+    const exit = (event: Event) => { setRoomNotice((event as CustomEvent<string>).detail); leaveLive('#/home'); };
+    window.addEventListener('el-zhady:room-exit', exit);
+    return () => window.removeEventListener('el-zhady:room-exit', exit);
+  }, []);
   const [preferences, setPreferences] = useState(readPreferences);
   const [storageOk, setStorageOk] = useState(true);
   const [modal, setModal] = useState<'menu' | 'share' | 'reset' | string | null>(null);
@@ -87,6 +95,7 @@ export default function App() {
     </div></header>
     {preferences.presentation && <div className="presentation-banner"><Monitor size={18} /> Көрсетілім режимі қосулы <button onClick={() => setPreferences(p => ({ ...p, presentation: false }))}>Шығу <X size={16} /></button></div>}
     <main id="main" tabIndex={-1} ref={main}>
+      {roomNotice && <div className="page-width room-exit-notice" role="alert"><strong>{roomNotice}</strong><button type="button" className="icon-button" aria-label="Хабарламаны жабу" onClick={() => { clearRoomNotice(); setRoomNotice(''); }}><X size={20} /></button></div>}
       {current === 'home' ? <>
         <section className="hero page-width">
           <div className="hero-copy"><div className="eyebrow"><span className="small-rule" />ТАРИХТЫ ТАНУ. ЖАДТЫ САҚТАУ.</div><h1>Ел жады<span>Қазақстан,<br /><em>1939–1953.</em></span></h1><p className="hero-description">Ұлы Отан соғысы және соғыстан кейінгі Қазақстан <span>(1939–1953 жж.)</span></p><p className="hero-intro">Өткенді дерек арқылы түсінуге арналған<br className="desktop-break" /> университеттік оқу кеңістігі.</p><div className="hero-actions"><a className="button primary" href={link('timeline')}>Зерттеуді бастау <ArrowRight size={19} /></a><button className="button text-button" onClick={() => setModal('share')}><QrCode size={19} /> Телефонмен ашу</button></div><div className="hero-note"><span className="status-dot" /> Әзірлеу нұсқасы <span className="note-divider">/</span> Мазмұн дереккөздермен толықтырылады</div></div>

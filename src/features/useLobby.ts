@@ -1,3 +1,4 @@
+import { reportRoomExit } from '../lib/room-exit';
 import { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../auth/AuthProvider';
 import { api } from '../backend/api';
@@ -23,8 +24,9 @@ export function useLobby(roomId: string) {
         if (active) { setLobby(next); setError(''); }
       } catch (e) {
         if (active) {
+          if (['ROOM_CLOSED','ROOM_DELETED','ROOM_NOT_FOUND'].includes(serviceError(e).code)) reportRoomExit(serviceError(e).code);
           setError(errorText(e));
-          if (['ROOM_ACCESS_DENIED','REMOVED','ROOM_NOT_FOUND','AUTH_REQUIRED'].includes(serviceError(e).code)) { setLobby(null); denied = true; }
+          if (['ROOM_REMOVED','ROOM_BLOCKED','ROOM_CLOSED','ROOM_DELETED','ROOM_ACCESS_DENIED','REMOVED','ROOM_NOT_FOUND','AUTH_REQUIRED'].includes(serviceError(e).code)) { setLobby(null); denied = true; }
           else setConnection(navigator.onLine ? 'polling' : 'offline');
         }
       } finally { running = false; if (active) setLoading(false); if (pending) { pending = false; void load(); } }
@@ -37,10 +39,9 @@ export function useLobby(roomId: string) {
     const channel = supabase.channel(`lobby:${roomId}`)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'rooms', filter: `id=eq.${roomId}` }, schedule)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'room_participants', filter: `room_id=eq.${roomId}` }, schedule)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'competition_results', filter: `room_id=eq.${roomId}` }, schedule)
       .subscribe(status => { if (!active) return; if (status === 'SUBSCRIBED') { setConnection('live'); void load(); } else if (['CHANNEL_ERROR','TIMED_OUT','CLOSED'].includes(status)) setConnection(navigator.onLine ? 'polling' : 'offline'); });
     const connectionDeadline = setTimeout(() => { if (active) setConnection(previous => previous === 'connecting' ? 'polling' : previous); }, 12000);
-    const poll = setInterval(() => { if (document.visibilityState === 'visible') void load(); }, 15000);
+    const poll = setInterval(() => { if (document.visibilityState === 'visible') void load(); }, 2000);
     const beat = setInterval(() => { if (!denied && document.visibilityState === 'visible') void api.heartbeat(roomId).catch(() => {}); }, 25000);
     window.addEventListener('online', onOnline); window.addEventListener('offline', onOffline); document.addEventListener('visibilitychange', onVisible);
     return () => { active = false; clearTimeout(connectionDeadline); clearInterval(poll); clearInterval(beat); clearTimeout(debounce); void supabase!.removeChannel(channel); window.removeEventListener('online', onOnline); window.removeEventListener('offline', onOffline); document.removeEventListener('visibilitychange', onVisible); };

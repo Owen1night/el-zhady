@@ -1,3 +1,4 @@
+import { reportRoomExit } from '../lib/room-exit';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { liveApi } from './api';
 import { supabase } from '../backend/client';
@@ -24,15 +25,15 @@ export function useLiveQuiz(roomId: string) {
         }
       } catch (e) {
         if (active) {
-          retryAfter = performance.now() + 5000; setError(errorText(e));
-          if (['ROOM_ACCESS_DENIED','AUTH_REQUIRED','REMOVED'].includes(serviceError(e).code)) { setState(null); denied = true; }
+          retryAfter = performance.now() + 5000; if (['ROOM_CLOSED','ROOM_DELETED','ROOM_NOT_FOUND'].includes(serviceError(e).code)) reportRoomExit(serviceError(e).code); setError(errorText(e));
+          if (['ROOM_REMOVED','ROOM_BLOCKED','ROOM_CLOSED','ROOM_DELETED','ROOM_ACCESS_DENIED','AUTH_REQUIRED','REMOVED'].includes(serviceError(e).code)) { setState(null); denied = true; }
         }
       } finally { inFlight = false; if (active) setLoading(false); }
     }
     void load();
     const poll = setInterval(() => { if (document.visibilityState === 'visible') void load(); }, 1000);
     function visible() { if (document.visibilityState === 'visible') void load(); }
-    const channel = supabase?.channel(`live-quiz:${roomId}`).on('postgres_changes', { event: '*', schema: 'public', table: 'live_quiz_sessions', filter: `room_id=eq.${roomId}` }, () => void load()).subscribe();
+    const channel = supabase?.channel(`live-quiz:${roomId}`).on('postgres_changes', { event: '*', schema: 'public', table: 'live_quiz_sessions', filter: `room_id=eq.${roomId}` }, () => void load()).on('postgres_changes', { event: '*', schema: 'public', table: 'live_competitions', filter: `room_id=eq.${roomId}` }, () => void load()).on('postgres_changes', { event: '*', schema: 'public', table: 'rooms', filter: `id=eq.${roomId}` }, () => void load()).on('postgres_changes', { event: '*', schema: 'public', table: 'room_participants', filter: `room_id=eq.${roomId}` }, () => void load()).subscribe();
     window.addEventListener('online', visible); document.addEventListener('visibilitychange', visible);
     return () => { active = false; clearInterval(poll); if (channel) void supabase?.removeChannel(channel); window.removeEventListener('online', visible); document.removeEventListener('visibilitychange', visible); };
   }, [roomId, attempt]);

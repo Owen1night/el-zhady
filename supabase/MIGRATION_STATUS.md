@@ -21,3 +21,13 @@
 The owner reports both Stage 3 migrations succeeded on the existing project. The owner also verified both Cron jobs active, the five most recent quiz scheduler runs succeeded about one second apart, and `live_quiz_scheduler_ready()` returned true. This is the owner's hosted verification report, not independent SQL execution or inspection by the assistant. No migration or Cron setup was rerun by the assistant.
 
 **Do not rerun any of the three applied migrations or the Cron setup.** The Stage 2 migration remains unchanged. Manual SQL Editor execution does not establish CLI migration-history reconciliation; verify the linked project/history before any future CLI workflow. On 2026-11-03 the owner authorised marking PR #3 ready, merging after green checks/no blockers, and deploying/verifying GitHub Pages. Live multiplayer/physical-device acceptance remains separate from the owner's Cron check.
+
+
+## Competition lifecycle additions — NOT applied remotely
+
+| Version | File | Status |
+| --- | --- | --- |
+| `20261103000100` | `migrations/20261103000100_competition_lifecycle.sql` | New draft; isolated tests only; manual hosted application pending |
+| `20261103000200` | `migrations/20261103000200_question_bank_v2.sql` | New draft; isolated tests only; manual hosted application pending |
+
+Baseline Stage 3 is deployed at main `f291792`. This new branch/PR is not authorised to merge/deploy or mutate hosted Supabase. No previously applied migration or Cron setup was rerun/edited. Follow COMPETITION_SETUP.md: first verify zero running quizzes and coordinate maintenance/matching frontend; later apply ONLY the two new files once in the listed order, then verify existing Cron without rescheduling it. Record an actual owner report here before marking either new version applied.

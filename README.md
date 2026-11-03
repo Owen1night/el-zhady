@@ -1,12 +1,14 @@
-> Release update, 2026-11-03: the owner reports Stage 3 migrations and Cron verified and now authorises PR #3 merge/deployment after checks. Do not rerun those setup steps. Earlier review-only instructions below describe the implementation phase. The Pages workflow now independently checks the public HTTPS release marker and all built asset hashes after deployment; full live-game acceptance on physical devices remains necessary.
-
 # el-zhady
 
-«Ел жады: Қазақстан, 1939–1953» — Kazakh-language university history website. Existing Stage 2 site: **https://owen1night.github.io/el-zhady/**.
+«Ел жады: Қазақстан, 1939–1953» — Kazakh-language university history website.
 
-**Stage 3 is a review branch, not merged/deployed.** It adds one complete ten-question live quiz: server timing/scoring, registered + anonymous participation, host screen, reveals/leaderboards/podium, reconnect, cancellation and persisted competition history. Other four activities, independent practice and narrative historical/media collections remain unfinished and labelled. Live points do not populate practice /100. The owner reports Stage 2 login/profile/admin/join/physical-iPhone QR/lock flows working; Stage 3 hosted acceptance is still pending.
+**Public deployed baseline:** https://owen1night.github.io/el-zhady/ — Stage 3 main `f291792`.
 
-## Local development / preview
+**Current work:** competition lifecycle update on `codex/live-competition-lifecycle`, for a draft PR only. Nothing from this update has been merged, deployed or applied to hosted Supabase. The museum identity, public history routes, Google/private profiles, genuine anonymous guest joining and GitHub Pages hosting remain intact. Independent practice, the other four activities and narrative/media collections remain unfinished.
+
+The draft adds distinct removal/blocking, final close/deletion with saved history, projector QR expansion, one to three quiz-only rounds with a frozen roster, explicit next-round/final-result controls, protected host/player result views, a staged tied podium and a private 20-question bank with ten-question persisted draws.
+
+## Local development and production preview
 
 Node.js 22+ and npm:
 
@@ -19,46 +21,58 @@ npm run build
 npm run dev -- --port 5173
 ```
 
-Use your own clone path instead of `/workspace/el-zhady` if different. Exact production-build preview command:
+Use your own clone path if different. Exact production-build preview command:
 
 ```bash
 npm run preview -- --port 4173
 ```
 
-Open `http://localhost:4173` **on that machine**. This is local preview, not a cloud-forwarded/public URL. Missing Supabase config keeps all historical sections readable and shows an honest service notice for account/room features. No local mock profiles/results are substituted.
+Open `http://localhost:4173` on the machine running it. This is local QA, not a public cloud preview or deployment. Missing/unreachable Supabase keeps public history readable and shows finite service errors; it never substitutes mock production profiles/results.
 
-`check` runs types + public editorial structure checks. `test` runs client/OAuth/config rules and fresh isolated SQL/RLS/RPC tests (PGlite by default). `build` also checks the browser bundle excludes the ten private prompts, seed IDs and marker. No lint script exists. For real multi-connection PostgreSQL and three-context Chromium tests, see [STAGE3_VERIFICATION.md](STAGE3_VERIFICATION.md). CI uses an isolated PostgreSQL 17 service for the live SQL races, Node 22 and the existing four public build variables.
+`check` runs TypeScript and public editorial-structure checks. `test` runs existing client/config/OAuth-subpath/Stage 2/3 baseline suites plus the new migration/upgrade/privacy/lifecycle suite in fresh disposable databases. `build` rejects private question prompts/IDs/seed markers in browser JS. No lint script exists.
 
-## Backend configuration
+For actual PostgreSQL connections, use the disposable loopback service described in [COMPETITION_VERIFICATION.md](COMPETITION_VERIFICATION.md):
 
-Stage 2 setup is documented in [SUPABASE_SETUP.md](SUPABASE_SETUP.md). The initial migration was manually applied **once**, as reported by the owner. **Do not rerun or edit it.** Stage 3 needs only its two new migrations plus Supabase Cron; exact one-time SQL Editor steps, verification queries and a laptop/iPhone acceptance checklist are in [STAGE3_SETUP.md](STAGE3_SETUP.md). No hosted access was available to apply/verify these changes. Pages never applies migrations.
+```bash
+LIVE_QUIZ_TEST_DATABASE_URL=postgresql://postgres@127.0.0.1:55433/postgres npm run test:competition
+LIVE_QUIZ_TEST_DATABASE_URL=postgresql://postgres@127.0.0.1:55433/postgres npm run test:competition:browser
+```
 
-Copy `.env.example` to ignored `.env.local` for local authenticated development; use only public values:
+`test:live:browser` aliases the current runner. Chromium uses `/usr/bin/chromium`, optional `CHROMIUM_EXECUTABLE_PATH`, or a Playwright-installed browser. Three separate contexts execute real SQL/RLS through test-only Auth/REST fixtures; these do not establish hosted Supabase/Google/Realtime/Cron or physical-device success. CI uses PostgreSQL 17 and Node22. Test fixtures never enter the application bundle or real project.
 
-- `VITE_PUBLIC_SITE_URL`: actual HTTPS public root `https://owen1night.github.io/el-zhady/`, never localhost.
-- `VITE_SUPABASE_URL`: your project's HTTPS URL.
-- `VITE_SUPABASE_PUBLISHABLE_KEY`: public publishable or legacy anon key, never secret/service-role.
-- `VITE_TURNSTILE_SITE_KEY`: public CAPTCHA site key if enabled in Supabase.
+## Backend status and new manual setup
 
-Google/CAPTCHA secrets stay in Supabase. No OAuth secret, database password or admin/service-role key belongs in browser code or build variables. Existing permanent admin grants remain valid. See SUPABASE_SETUP.md for secure owner SQL designation; do not grant by name or metadata.
+The owner reports the original three migrations successfully applied manually and existing Cron verified. **Never edit or rerun those applied files or recreate Cron jobs.** Current status: [supabase/MIGRATION_STATUS.md](supabase/MIGRATION_STATUS.md).
 
-## Later deployment — not authorised by this Stage 3 task
+The draft requires only **two new migrations**, neither applied remotely by this task. [COMPETITION_SETUP.md](COMPETITION_SETUP.md) gives exact SQL Editor steps, the precheck for zero running quizzes, coordinated maintenance/matching frontend requirements, read-only schema/privacy/Cron checks and a laptop/iPhone checklist. Do not apply production changes merely because the draft CI passes; the API/result contract changes require a separately approved coordinated release.
 
-1. Review this PR and the new SQL. Follow STAGE3_SETUP.md for the two new migrations and successful one-second Cron job; retain Stage 2 Auth/CAPTCHA/redirect configuration. Record manual application status.
-2. Keep GitHub **Settings → Pages → Build and deployment → Source → GitHub Actions**. Keep the four public values in **Settings → Secrets and variables → Actions → Variables**.
-3. Run checks, complete hosted acceptance, and obtain separate release approval. Only then merge to `main`; the existing `.github/workflows/pages.yml` deploys on main push/manual dispatch. This task does neither.
-4. Wait for build **and** deployment success. Check the actual HTTPS page/assets, refreshed hash navigation, Google callback `/el-zhady/?code=…`, QR guest entry, multiplayer and saved history on actual devices. A local build is not deployment evidence.
+Existing [SUPABASE_SETUP.md](SUPABASE_SETUP.md) and [STAGE3_SETUP.md](STAGE3_SETUP.md) are historical setup references. Keep `el_zhady_private` outside exposed schemas. Existing owner admin grants/Auth/CAPTCHA/OAuth settings remain; grant future admins only via guarded owner SQL using permanent Auth UIDs, never display names/metadata.
 
-Vite `base: './'`, bundled Kazakh fonts and hash routes preserve `/el-zhady/` hosting without refreshed-route 404s. QR uses the configured public URL. No new hosting provider or visitor payment/account requirement for history/guest competition is introduced.
+Copy `.env.example` to ignored `.env.local` for local authenticated work. Only public values belong in frontend/build configuration:
 
-## Structure
+- `VITE_PUBLIC_SITE_URL`: `https://owen1night.github.io/el-zhady/`, never localhost.
+- `VITE_SUPABASE_URL`: actual project HTTPS URL.
+- `VITE_SUPABASE_PUBLISHABLE_KEY`: public publishable or legacy anon key.
+- `VITE_TURNSTILE_SITE_KEY`: public site key when CAPTCHA is enabled.
 
-- [PROJECT_SPEC.md](PROJECT_SPEC.md): architecture, routes and timing/scoring decisions.
-- [REQUIREMENTS.md](REQUIREMENTS.md): assessment and Stage 2/3 completion status.
-- [CONTENT_GUIDE.md](CONTENT_GUIDE.md) / [LIVE_QUIZ_CONTENT.md](LIVE_QUIZ_CONTENT.md): source rules and actually opened question references.
-- [SECURITY.md](SECURITY.md): identity, RLS, private keys, disclosure and race boundaries.
-- [STAGE3_SETUP.md](STAGE3_SETUP.md) / [STAGE3_VERIFICATION.md](STAGE3_VERIFICATION.md): manual setup and actual test limits.
-- `src/data/`: public editorial types/plans; `src/auth/`, `backend/`, `features/`: Stage 2 flows; `src/live/`: live quiz UI/typed projections only.
-- `supabase/migrations/`: versioned production SQL; `supabase/manual/`: owner Cron setup; `supabase/tests/`, `scripts/testing/`: isolated dev-only tests.
+No service-role key, OAuth/CAPTCHA secret, database/admin password belongs in browser code, build variables or Git. Secrets remain managed by Supabase. This update needs no new variable, provider, backend host or visitor payment.
 
-Browser storage preserves display preferences and Auth sessions, not authoritative scores. Reset clears only preferences. PostgreSQL stores competition answers/results immediately; guest recovery depends on retaining that browser's Auth session. The header monitor control enlarges presentation text. Motion respects reduced motion and never delays answer submission; no automatic audio.
+## Later release (not authorised by this draft task)
+
+1. Review the PR/new SQL; follow COMPETITION_SETUP.md during a coordinated release window or on a disposable test project. Record actual application status. Do not run a blanket CLI `db push` against un-reconciled manual migration history.
+2. Keep GitHub **Settings → Pages → Build and deployment → Source → GitHub Actions** and the four public Actions variables above. No private credential is needed for the static build.
+3. Only after separate approval, merge to `main`. The existing `.github/workflows/pages.yml` deploys on main push/manual dispatch; PR CI does not deploy or migrate.
+4. Monitor both jobs AND the public HTTPS health step, which checks the published commit marker and all25 built files against SHA-256. Then test actual Google/guest/QR/game/lifecycle/privacy/device flows. A static deployment check is not live-game acceptance.
+
+Vite relative `base: './'`, bundled Kazakh fonts and hash routes preserve `/el-zhady/` refresh/navigation without server rewrites. OAuth returns to `/el-zhady/?code=…` and restores a safe hash destination. QR uses the configured real public URL. No alternate hosting provider is introduced.
+
+## Documentation and boundaries
+
+- [PROJECT_SPEC.md](PROJECT_SPEC.md), [REQUIREMENTS.md](REQUIREMENTS.md), [CONTENT_GUIDE.md](CONTENT_GUIDE.md): architecture, accurate completion states and content rules.
+- [COMPETITION_CONTENT.md](COMPETITION_CONTENT.md): new bank claims and actually opened sources; [LIVE_QUIZ_CONTENT.md](LIVE_QUIZ_CONTENT.md): retained Stage 3 claims.
+- [COMPETITION_SETUP.md](COMPETITION_SETUP.md), [COMPETITION_VERIFICATION.md](COMPETITION_VERIFICATION.md), [SECURITY.md](SECURITY.md): exact manual setup, real test limits and result/privacy/deletion decisions.
+- `src/data/`: public editorial plans/types; `src/auth/`, `backend/`, `features/`, `live/`: actual integration/UI. `supabase/migrations/`: versioned SQL; `supabase/tests/` and `scripts/testing/`: dev-only fixtures.
+
+Registered history and named guest archives use internal identity snapshots, never name matches. Deleting a closed room preserves completed earned history, profiles, Auth and practice; unfinished cancelled rounds do not become completed rankings. Quiz-only totals sum correct counts/speed on the same scale, separate from practice /100. Mixed games remain unavailable until normalization/weight/speed/tie decisions are reviewed. Question draws may overlap other rounds; private API projections do not make public seed SQL cheat-proof.
+
+The owner reports physical iPhone full-quiz/late-join/final-refresh success. Mid-question Safari answer recovery and host-tab-closed continued play remain physical checks. Preferences/reset remain cosmetic; server persistence never depends on unload. Motion supports reduced motion and no automatic audio.

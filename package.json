@@ -1,7 +1,7 @@
 {
   "name": "el-zhady",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.4.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
@@ -12,7 +12,9 @@
     "test:db": "node --import tsx supabase/tests/security.test.ts",
     "check:deploy": "node --import tsx scripts/check-deploy-config.ts",
     "test:live": "node --import tsx --test supabase/tests/live-quiz.test.ts",
-    "test:live:browser": "node --import tsx scripts/testing/live-browser.ts"
+    "test:live:browser": "node --import tsx scripts/testing/competition-browser.ts",
+    "test:competition": "node --import tsx --test supabase/tests/competition.test.ts",
+    "test:competition:browser": "node --import tsx scripts/testing/competition-browser.ts"
   },
   "dependencies": {
     "@fontsource/noto-sans": "^5.2.8",

@@ -1,3 +1,5 @@
+> Latest work: competition lifecycle update on `codex/live-competition-lifecycle`, based on deployed Stage 3 `f291792`. Draft only; new migrations not applied to hosted Supabase, no merge/deploy. The historical Stage 2/3 implementation statuses below are superseded where the new matrix at the end changes the contract. Physical iPhone evidence is limited to the owner's full quiz/late-join/final-result-refresh report.
+
 # Requirements and evidence
 
 2026-11-01: Stage 2 is deployed; the owner reports successful Google/profile/admin/registered join and physical-iPhone guest QR/locked-room tests. Stage 3 is implemented on `codex/stage-3-live-quiz`, **not merged or deployed**. “Local checked” means code/SQL/browser evidence in STAGE3_VERIFICATION.md, not hosted service or physical-device certification. A plan/layout is not completed historical content.
@@ -96,3 +98,30 @@
 | New branch/push/PR; no merge/deploy | `codex/stage-3-live-quiz`; PR delivery in final response | Later separate release approval |
 
 No content or function is marked complete from a plan alone. See STAGE3_VERIFICATION.md and STAGE3_SETUP.md for reproducible evidence and exact external tasks.
+
+
+## Competition lifecycle update requirements
+
+| Requirement | Actual implementation / local evidence | Remaining |
+| --- | --- | --- |
+| New branch from deployed main; draft/no external mutation | `codex/live-competition-lifecycle` from `f291792`, two new SQL files; old files unchanged | Hosted manual application/release not authorised here |
+| Remove versus block | Distinct exact Kazakh labels/confirmations; `removed`/`blocked` identity-room state | Physical-device acceptance |
+| Explicit manual rejoin only before start | `join_room` restores existing ID only on explicit join; fetch/refresh never joins | Hosted Auth/Realtime check |
+| Room-only identity ban, not name ban | Private membership flag; identical names/other rooms unaffected; new identity caveat visible | No claim bans survive fresh anonymous identity |
+| Late joins locked throughout competition | Frozen roster/started timestamp; unlock denied even between rounds; SQL tested | Hosted acceptance |
+| Close final, participant home on live/reconnect/refresh | Open-room guard plus shared closure notice/hash exit; SQL/browser checked | Physical Safari suspend/resume |
+| Closed-only permanent delete | Confirmed admin RPC; inspected explicit FK order; tombstoned QR; SQL/browser checked | Hosted owner applies new schema later |
+| Preserve earned history/practice/Auth | Durable private name/UID snapshots, no room FKs; legacy/live/history upgrade/delete tests | Retention policy beyond this scope |
+| Keep prepare-another-room and expected disabled field | Admin flow untouched; browser verifies disabled field and explicit reset/new preparation | None locally |
+| Full-viewport projector QR | Crisp SVG, large code, X/Escape/focus return; desktop/360px browser checked | Physical QR scan after release |
+| Ordered lineup/same roster | One to three real quiz rounds; unavailable other kinds; explicit ordinal transitions | Mixed games remain disabled |
+| Nonfinal game results + host Next | Results saved once; host-only standings/control; players wait; no auto next | Hosted acceptance |
+| Final host publication, persisted reveal | Admin-only idempotent RPC/timestamp; refresh respects it | Hosted acceptance |
+| Third→second→first spotlight, ties/fewer places | Shared sequence and settled centre-first layout; browser checks tied third and two places; reduced motion skips | Physical presentation/device timing |
+| Full table host only, players podium + own | RLS/admin-only raw result tables; removed result publications; filtered old/new RPCs/history; SQL attacks checked | Hosted Supabase JWT/PostgREST audit |
+| Keep scoring and practice separation | Audited Stage 3 receipt-time scoring reused; quiz-only totals; practice unchanged | Choose normalization/weights/speed/ties before mixed games |
+| Larger sourced Kazakh bank | Twenty private items, ten carried forward + ten newly checked; source record in COMPETITION_CONTENT.md | Teacher editorial review; narrative/media still pending |
+| Ten distinct random shared-order questions per round | Saved private draw/order, stable retry/reconnect; fresh sessions vary; SQL/browser checked | No guarantee of no overlap across rounds |
+| Required tests/build/docs | Types/tests/build/private bundle guard; actual PostgreSQL + separate Chromium sessions; setup guide | Hosted/physical checks explicitly pending |
+
+A passing local fixture test is not physical iPhone or hosted Realtime/Cron verification. Mid-question Safari answer recovery and continued play with a closed host tab remain on the device checklist even though local Chromium recovery tests pass.
