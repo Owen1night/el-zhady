@@ -1,3 +1,5 @@
+> Editorial revision, 2026-11-03: all twelve Kazakh readings proofread; Kazakhstan-specific Archive/Ministry citations added; twelve timeline records now describe individual events; four biographies explicitly remain introductions. No academic verification or hosted release is claimed. Review: [readings](review/READINGS.md), [timeline](review/TIMELINE.md), [historian questions](review/EDITORIAL_REVIEW.md).
+
 # Published sourced drafts
 
 The first learning collection now uses status `sourced`, precise references, checkedOn and an editorialNote explicitly awaiting academic and Kazakh-language review. Do not turn these into `verified` merely because automated checks pass. All public paragraphs, people and timeline events resolve to learningSources. Use short original paraphrases and avoid disputed precise dates/statistics. Source images and rights separately: this slice links the 1995 Mәметова stamp catalogue (PD-KZ-exempt as recorded by Commons), labels it as later commemoration and does not pretend it is a wartime photo. No unverified remote image is rendered. The remaining older empty-collection guidance below applies to collections still unfinished.

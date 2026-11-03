@@ -1,3 +1,5 @@
+> Editorial revision, 2026-11-03: all twelve Kazakh readings proofread; Kazakhstan-specific Archive/Ministry citations added; twelve timeline records now describe individual events; four biographies explicitly remain introductions. No academic verification or hosted release is claimed. Review: [readings](review/READINGS.md), [timeline](review/TIMELINE.md), [historian questions](review/EDITORIAL_REVIEW.md).
+
 # Playtest update — draft slices, production unchanged
 
 Baseline: PR #4 merge `e60d7d483ad6e4f518c81329527e3382170b02e2`.

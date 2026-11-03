@@ -13,3 +13,12 @@ test('published readings have resolvable precise references without claiming aca
   assert.deepEqual(validateContent({learningFacts,learningFigures,learningTimeline},learningSources),[]);
   assert(learningFacts.every(f=>f.status==='sourced'&&f.sourceRefs.length));
 });
+
+test('timeline descriptions do not inherit other events from a reading', () => {
+  const entry = (date: string) => learningTimeline.find(e => e.date === date)!;
+  assert(!entry('1943').description.includes('1947'));
+  assert(!entry('1941-06-22').description.includes('1939'));
+  assert(!entry('1945-05').description.includes('қыркүйек'));
+  assert(!entry('1947').description.includes('1952'));
+  assert(learningTimeline.every(e => !learningFacts.some(f => f.text === e.description)));
+});
