@@ -1,3 +1,5 @@
+> Release update, 2026-11-03: the owner reports both new migrations successfully applied and Cron verified (two active jobs, five recent successful one-second quiz ticks, readiness true). **Do not repeat the migration or Cron setup below on this project.** PR #3 merge/deployment is now authorised after green checks. The original implementation-stage instructions below are retained for reference; current application status is in `supabase/MIGRATION_STATUS.md`. Real multi-device gameplay acceptance is still pending.
+
 # Stage 3 — one-time backend setup and later release
 
 Stage 3 is a review branch only. **Do not merge or deploy it yet.** The deployed Stage 2 site remains https://owen1night.github.io/el-zhady/. The owner reports Stage 2 Google/profile/admin/registered join and physical-iPhone guest QR/locked-room flows working. Those are owner-reported results, not new Stage 3 hosted verification.

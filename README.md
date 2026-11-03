@@ -1,3 +1,5 @@
+> Release update, 2026-11-03: the owner reports Stage 3 migrations and Cron verified and now authorises PR #3 merge/deployment after checks. Do not rerun those setup steps. Earlier review-only instructions below describe the implementation phase. The Pages workflow now independently checks the public HTTPS release marker and all built asset hashes after deployment; full live-game acceptance on physical devices remains necessary.
+
 # el-zhady
 
 «Ел жады: Қазақстан, 1939–1953» — Kazakh-language university history website. Existing Stage 2 site: **https://owen1night.github.io/el-zhady/**.

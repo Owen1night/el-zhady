@@ -1,3 +1,5 @@
+> Release update, 2026-11-03: owner-reported hosted application of both new migrations and successful Cron verification is recorded in `supabase/MIGRATION_STATUS.md`. The owner has now authorised PR #3 release after green checks. The historical local test record below is unchanged; hosted gameplay/physical devices remain untested by the assistant. Pages now verifies the public HTTPS release marker and every built file against SHA-256 on the deployment runner; its actual run result is reported at release completion.
+
 # Stage 3 verification record
 
 Date: 2026-11-01. Branch: `codex/stage-3-live-quiz`, based on remote main `b30452e`. Stage 2 migration's SHA-256 remains `55eae585c14a9708ff556a26d51c752ec456aa550f3e4930f397903bb8588ba9`. No hosted migration was executed; no merge or deployment was performed.
