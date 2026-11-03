@@ -31,7 +31,7 @@ export const learningFigures: HistoricalFigure[] = [
   { id: 'aliya', name: 'Әлия Молдағұлова', role: 'hero', biography: 'Мерген. Бұл қысқаша таныстыру оның әскери мамандығын көрсетеді; толық өмірбаяны жеке зерттеуді қажет етеді.', ...sourced('west','54-ші атқыштар бригадасының мергені аталған абзац') },
   { id: 'manshuk', name: 'Мәншүк Мәметова', role: 'hero', biography: 'Пулеметші. Бұл қысқаша таныстыру оның әскери мамандығын көрсетеді; толық майдан жолы бөлек зерттелуі тиіс.', imageId: 'manshuk-stamp', ...sourced('west','100-ші ұлттық атқыштар бригадасының пулеметшісі аталған абзац') },
   { id: 'satbayev', name: 'Қаныш Сәтбаев', role: 'postwar', biography: '1946 жылы құрылған Қазақ КСР Ғылым академиясының тұңғыш президенті. Бұл — толық өмірбаян емес, қысқаша таныстыру.', ...sourced('academy','1946 бөлімі') },
-  { id: 'bekmakhanov', name: 'Ермұхан Бекмаханов', role: 'postwar', biography: '1947 жылғы монографияның авторы, 1952 жылы сотталған тарихшы. Бұл — оның еңбегі мен тағдырына қысқаша таныстыру.', ...sourced('culture','1947 жылғы еңбек; 1952 жылғы үкім') },
+  { id: 'bekmakhanov', name: 'Ермұхан Бекмаханов', role: 'postwar', biography: '1947 жылғы монографияның авторы, 1952 жылы сотталған тарихшы. Бұл — қысқаша таныстыру; толық өмірбаяны жеке зерттеуді қажет етеді.', ...sourced('culture','1947 жылғы еңбек; 1952 жылғы үкім') },
 ];
 // Each record describes its dated event; never inherit a multi-event reading paragraph.
 export const learningTimeline: TimelineEvent[] = [

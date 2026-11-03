@@ -30,13 +30,13 @@ PR #5 · 03.11.2026. Әр жазба тек өз оқиғасын сипатта
 
 1945 жылғы мамырда Германияның тізе бүгуімен Еуропадағы соғыс аяқталды.
 
-[United States Holocaust Memorial Museum: World War II Dates and Timeline](https://encyclopedia.ushmm.org/content/en/article/world-war-ii-key-dates) — FAQ: When did WWII end in Europe?.
+[United States Holocaust Memorial Museum: World War II Dates and Timeline](https://encyclopedia.ushmm.org/content/en/article/world-war-ii-key-dates) — FAQ: When did WWII end in Europe?
 
 ## 1945-09-02 — Жапонияның тізе бүгуі
 
 Жапония 1945 жылғы 2 қыркүйекте тізе бүгу туралы құжатқа қол қойды.
 
-[United States Holocaust Memorial Museum: World War II Dates and Timeline](https://encyclopedia.ushmm.org/content/en/article/world-war-ii-key-dates) — FAQ: When did WWII end in the Pacific Theater?.
+[United States Holocaust Memorial Museum: World War II Dates and Timeline](https://encyclopedia.ushmm.org/content/en/article/world-war-ii-key-dates) — FAQ: When did WWII end in the Pacific Theater?
 
 ## 1946-03 — Қалпына келтіру жоспары
 
