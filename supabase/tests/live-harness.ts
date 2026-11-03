@@ -13,7 +13,7 @@ export const actors = {
   player3: '40000000-0000-4000-8000-000000000006',
 } as const;
 export const testEpoch = Date.parse('2030-01-01T12:00:00.000Z');
-export async function liveHarness(next = false) {
+export async function liveHarness(next = false, mixed = false) {
   const url = process.env.LIVE_QUIZ_TEST_DATABASE_URL;
   let query: Query; let exec: (sql: string) => Promise<unknown>; let asUser: <T>(uid: string, fn: (q: Query) => Promise<T>) => Promise<T>; let close: () => Promise<void>; let realPostgres = false;
   let asOwner: (<T>(fn: (q: Query) => Promise<T>) => Promise<T>) | null = null;
@@ -55,7 +55,7 @@ export async function liveHarness(next = false) {
     if(realPostgres) bootstrap=bootstrap.replace(/^create role .*;\n/gm,'');
     await exec(bootstrap);
     if (next) await exec('create publication supabase_realtime');
-    for(const file of ['20261101000100_stage2_foundation.sql','20261101000200_live_quiz.sql','20261101000300_live_quiz_content_v1.sql', ...(next ? ['20261103000100_competition_lifecycle.sql','20261103000200_question_bank_v2.sql'] : [])]) await exec(await readFile(new URL(`../migrations/${file}`,import.meta.url),'utf8'));
+    for(const file of ['20261101000100_stage2_foundation.sql','20261101000200_live_quiz.sql','20261101000300_live_quiz_content_v1.sql', ...(next ? ['20261103000100_competition_lifecycle.sql','20261103000200_question_bank_v2.sql'] : []), ...(mixed ? ['20261103000300_mixed_live_engine.sql','20261103000400_mixed_bank_v3.sql'] : [])]) await exec(await readFile(new URL(`../migrations/${file}`,import.meta.url),'utf8'));
     const schedulerDefinition = (await query<{definition:string}>("select pg_get_functiondef('el_zhady_private.live_quiz_scheduler_ready()'::regprocedure) definition")).rows[0].definition;
     // Test-only clock/scheduler boundary substitutes. No production input can set time.
     await exec("create table el_zhady_private.test_clock(at_time timestamptz not null); insert into el_zhady_private.test_clock values('2030-01-01T12:00:00Z'); create or replace function el_zhady_private.live_quiz_clock() returns timestamptz language sql volatile set search_path='' as $$select at_time from el_zhady_private.test_clock$$; create or replace function el_zhady_private.live_quiz_scheduler_ready() returns boolean language sql stable security definer set search_path='' as $$ select true $$;");

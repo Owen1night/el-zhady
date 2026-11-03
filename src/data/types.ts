@@ -2,6 +2,7 @@
 export type SourceReference = { sourceId: string; locator: string };
 export type NonEmpty<T> = readonly [T, ...T[]];
 export type EditorialState =
+  | { status: 'sourced'; sourceRefs: NonEmpty<SourceReference>; checkedOn: string; editorialNote: string }
   | { status: 'draft'; sourceRefs: readonly SourceReference[]; editorialNote: string }
   | { status: 'verified'; sourceRefs: NonEmpty<SourceReference>; reviewedBy: string; reviewedOn: string };
 export type Sourced<T> = T & EditorialState;

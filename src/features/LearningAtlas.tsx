@@ -1,0 +1,6 @@
+import { useState } from 'react';
+import { MapChallenge } from '../live/Challenge';
+import { learningFacts } from '../data/learning';
+import { References } from './Learning';
+const places=[{id:'almaty',text:'Алматы',lon:76.9,lat:43.2,fact:'cinema-almaty'},{id:'oral',text:'Орал',lon:51.4,lat:51.2,fact:'rear-oral'},{id:'semey',text:'Семей полигонының өңірі',lon:78,lat:50,fact:'semey-1949'},{id:'warsaw',text:'Варшава',lon:21,lat:52.2,fact:'war-periods'}];
+export function LearningAtlas(){const [selected,setSelected]=useState('almaty');const fact=learningFacts.find(f=>f.id===places.find(p=>p.id===selected)?.fact)!;return <section className="outline-panel learning-atlas"><span className="eyebrow">ОРЫН · ОҚИҒА · ДЕРЕК</span><h2>Тарихты кеңістіктен оқу</h2><p>Орынды картадан немесе тізімнен таңдаңыз. Бұл оқу материалы; ұпай есептелмейді.</p><MapChallenge question={{id:'learning-atlas',ordinal:0,prompt:'Орынмен танысу',options:places.map(p=>({id:p.id,text:p.text})),opens_at:'',deadline:'',game_kind:'map',payload:{locations:places}}} chosen={selected} disabled={false} reveal={false} onAnswer={setSelected}/><article aria-live="polite"><h3>{fact.title}</h3><p>{fact.text}</p><References refs={fact.sourceRefs}/></article></section>;}

@@ -30,6 +30,7 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm test
+      - run: npm run check:mixed-content
       - name: Validate public deployment configuration and build
         run: |
           npm run check:deploy
@@ -41,3 +42,19 @@ jobs:
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
           VITE_TURNSTILE_SITE_KEY: ${{ vars.VITE_TURNSTILE_SITE_KEY }}
+      - name: Install Chromium for interaction checks
+        run: npx playwright install --with-deps chromium
+      - name: Check mixed games and reading layouts
+        run: |
+          npm run test:mixed:browser
+          npm run test:learning:browser
+      - name: Save review screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playtest-preview-screenshots
+          path: |
+            work/mixed-browser/*.png
+            work/learning-browser/*.png
+          if-no-files-found: ignore
+          retention-days: 7

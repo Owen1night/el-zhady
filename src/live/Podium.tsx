@@ -1,3 +1,5 @@
+import { PlayerName } from '../components/PlayerName';
+import { earnedPlace } from '../lib/player-label';
 import { useEffect, useRef, useState } from 'react';
 import { Trophy } from 'lucide-react';
 import type { Standing } from './types';
@@ -26,7 +28,7 @@ export function Podium({ rows, animate, serverNow, revealedAt }: { rows: Standin
       if (!winners.length) return null;
       const pending = !settled && places.indexOf(rank) > step;
       return <div key={rank} className={`podium-place place-${rank} ${rank === spotlight && !settled ? 'spotlight' : ''} ${pending ? 'podium-pending' : ''}`} aria-hidden={pending}>
-        <Trophy size={30} /><span>{rank}-орын</span>{winners.map(p => <div className="podium-person" key={p.participant_id}><strong>{p.display_name}</strong><small>#{p.display_suffix} · {p.raw_points} ұпай</small></div>)}
+        <Trophy size={30} /><span>{earnedPlace(rank)}</span>{winners.map(p => <div className="podium-person" key={p.participant_id}><strong><PlayerName name={p.display_name} id={p.participant_id} /></strong><small>{p.raw_points} ұпай</small></div>)}
       </div>;
     })}
   </div>;

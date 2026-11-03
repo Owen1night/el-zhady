@@ -1,3 +1,9 @@
+# Mixed draft security additions
+
+New private reservation table has RLS and no browser grants. Normalized prompt identity + room PK prevents copied question IDs/versions from filling shortages with repeats. All draws and capacity/roster state commit atomically under existing locks. `end_live_question` checks permanent admin status, room, specific session/question, phase and authoritative time; clients cannot select a future target or supply time/scores. Submission validation accepts only a permitted option or an exact permutation of the four current event IDs. Raw result table restrictions, no result Realtime publication and reveal-gated top-three/own projections remain. Browser code holds only public config; fixture SQL/identity/clock code is dev-only. No hosted privileges, Cron or credentials changed.
+
+---
+
 # Security model — Stage 2 foundation and Stage 3 live quiz
 
 Frontend: static GitHub Pages; only public Supabase project URL/key and optional CAPTCHA site key. OAuth uses Supabase-managed Google secrets and PKCE, returning to `/el-zhady/`. No service-role key, OAuth secret, database password or admin password is used by browser code. A user's Auth session token is sensitive and is stored by Supabase Auth in this browser for normal refresh recovery; treat the site as any authenticated web application and keep untrusted HTML/scripts out. React escapes display names; no raw HTML rendering is used.

@@ -1,3 +1,15 @@
+# Mixed draft architecture
+
+Adds private room_question_draws with room/content-key uniqueness and all-round atomic snapshots. Existing live session state machine now uses kind-specific 15/25/40-second windows plus five-second reveals. Stored per-question discarded time shifts later opens without reducing their full windows. The host RPC takes room/session/question IDs and uses the normal timeout path. Private keys/payload snapshots stay behind authenticated RPCs; prior host start/wait/reveal/history paths are retained. Public learning now has 13 readings and 5 people plus a locally bundled, credited Natural Earth land outline and a keyboard-readable atlas. No operational boundaries/routes are asserted.
+
+---
+
+# Playtest slice 1
+
+Public typed learning data in src/data/learning.ts renders without Auth. New `sourced` editorial state means sources were compared, while academic/Kazakh editorial review remains outstanding. Twelve readings, twelve timeline entries and four people are the first collection, not the full assessment. Join navigation reuses #/join. PlayerName uses a participant UUID identity tag, never a join ordinal; earnedPlace labels actual server ranks. No backend/schema changes in this slice.
+
+---
+
 # Ел жады: Қазақстан, 1939–1953 — project specification
 
 ## Scope and current stage

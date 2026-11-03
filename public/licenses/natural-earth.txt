@@ -1,0 +1,6 @@
+Made with Natural Earth. Public domain.
+Authors: Tom Patterson, Nathaniel Vaughn Kelso and contributors.
+Source: https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_110m_land.geojson
+Terms checked 2026-11-03: https://www.naturalearthdata.com/about/terms-of-use/
+Cropped/reprojected/rounded educational Eurasia land-outline SVG for El zhady.
+No country boundaries, wartime front lines, military routes or exact test-site point are asserted.
