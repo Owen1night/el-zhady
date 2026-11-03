@@ -8,11 +8,11 @@ export function validateContent(collections: Record<string, unknown[]>, sources:
     if (Array.isArray(value)) { value.forEach((item, i) => visit(item, `${path}[${i}]`)); return; }
     if (!value || typeof value !== 'object') return;
     const entry = value as Record<string, unknown>;
-    if ('status' in entry && ['draft', 'verified'].includes(String(entry.status))) {
+    if ('status' in entry && ['draft', 'sourced', 'verified'].includes(String(entry.status))) {
       if (!Array.isArray(entry.sourceRefs)) errors.push(`${path}: sourceRefs must be an array`);
-      if (entry.status === 'verified' && (!Array.isArray(entry.sourceRefs) || !entry.sourceRefs.length)) errors.push(`${path}: verified entry needs sources`);
+      if (['sourced','verified'].includes(String(entry.status)) && (!Array.isArray(entry.sourceRefs) || !entry.sourceRefs.length)) errors.push(`${path}: verified entry needs sources`);
       if (entry.status === 'verified' && (!entry.reviewedBy || !entry.reviewedOn)) errors.push(`${path}: missing review metadata`);
-      if (entry.status === 'draft' && !entry.editorialNote) errors.push(`${path}: draft needs editorialNote`);
+      if (['draft','sourced'].includes(String(entry.status)) && !entry.editorialNote) errors.push(`${path}: draft needs editorialNote`);
       if (Array.isArray(entry.sourceRefs)) for (const ref of entry.sourceRefs) {
         const source = sourceMap.get(ref?.sourceId);
         if (!source) errors.push(`${path}: unknown source ${ref?.sourceId}`);

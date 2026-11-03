@@ -1,3 +1,4 @@
+import { PlayerName } from '../components/PlayerName';
 import { useState } from 'react';
 import { LockKeyhole, RefreshCw, Users, Wifi } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
@@ -46,11 +47,11 @@ function ConnectedLobby({ roomId }: { roomId: string }) {
       </div>{started && <p className="form-help">Сайыс басталған соң кезеңдердің арасында да жаңа қатысушылар қосылмайды. Тізімдегі шығарылмаған қатысушылар қайта байланыса алады.</p>}</section>}
       <LiveQuiz roomId={roomId} lobby={lobby} feed={live} />
       <section className="outline-panel"><div className="section-heading"><div><span className="eyebrow">ҚАТЫСУШЫЛАР</span><h2>Бір кеңістік. Бөлек есімдер.</h2></div><p>Мәртебе соңғы әрекет уақытын көрсетеді.<br />Ол адамның онлайн екенін дәлелдемейді.</p></div>
-        {lobby.participants.length ? <ul className="participant-list">{lobby.participants.map(p => <li key={p.id}><span className="participant-number">#{String(p.display_suffix).padStart(2, '0')}</span><div><strong>{p.display_name}</strong>{p.id === lobby.my_participant_id && <span className="you-label">Сіз</span>}<span className="activity-time">{recentActivity(p.last_seen_at) ? 'Жақында белсенді болды' : 'Соңғы әрекетке біраз уақыт өтті'}</span></div>
+        {lobby.participants.length ? <ul className="participant-list">{lobby.participants.map(p => <li key={p.id}><div><strong><PlayerName name={p.display_name} id={p.id} /></strong>{p.id === lobby.my_participant_id && <span className="you-label">Сіз</span>}<span className="activity-time">{recentActivity(p.last_seen_at) ? 'Жақында белсенді болды' : 'Соңғы әрекетке біраз уақыт өтті'}</span></div>
           {lobby.can_manage && lobby.room.status !== 'closed' && <div className="moderation-actions"><button type="button" className="button secondary" disabled={busy} onClick={() => setConfirm({ action: 'remove', participant: p.id, name: p.display_name })}>Бөлмеден шығару</button><button type="button" className="button danger-button" disabled={busy} onClick={() => setConfirm({ action: 'block', participant: p.id, name: p.display_name })}>Шығару және осы бөлмеге кіруін бұғаттау</button></div>}
         </li>)}</ul> : <p>Қатысушылар әлі қосылмаған. Бөлмені алдын ала дайындауға болады.</p>}
       </section>
-      {lobby.can_manage && lobby.results.length > 0 && <section className="outline-panel lobby-results"><h2>Бұрынғы сайыс жазбалары</h2><ul className="history-list">{lobby.results.map(r => <li key={r.participant_id}><strong>{r.display_name_snapshot} · #{r.display_suffix}</strong><span>{r.score} / {r.max_score}</span></li>)}</ul></section>}
+      {lobby.can_manage && lobby.results.length > 0 && <section className="outline-panel lobby-results"><h2>Бұрынғы сайыс жазбалары</h2><ul className="history-list">{lobby.results.map(r => <li key={r.participant_id}><strong><PlayerName name={r.display_name_snapshot} id={r.participant_id} /></strong><span>{r.score} / {r.max_score}</span></li>)}</ul></section>}
       {lobby.can_manage && lobby.room.status !== 'closed' && <RoomShare code={lobby.room.code} />}
     </>}
     {confirm && <Dialog title={titles[confirm.action]} onClose={() => { if (!busy) setConfirm(null); }}>

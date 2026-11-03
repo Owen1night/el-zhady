@@ -1,3 +1,9 @@
+# Published sourced drafts
+
+The first learning collection now uses status `sourced`, precise references, checkedOn and an editorialNote explicitly awaiting academic and Kazakh-language review. Do not turn these into `verified` merely because automated checks pass. All public paragraphs, people and timeline events resolve to learningSources. Use short original paraphrases and avoid disputed precise dates/statistics. Source images and rights separately: this slice links the 1995 Mәметова stamp catalogue (PD-KZ-exempt as recorded by Commons), labels it as later commemoration and does not pretend it is a wartime photo. No unverified remote image is rendered. The remaining older empty-collection guidance below applies to collections still unfinished.
+
+---
+
 # Adding sourced historical content
 
 The current historical arrays in `src/data/content.ts` are intentionally empty. Section descriptions, thesis themes and activity plans are editorial placeholders, not finished research. Never replace a blank with a guessed fact, quotation, statistic, URL or image provenance.
