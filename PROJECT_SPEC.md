@@ -1,3 +1,9 @@
+# Playtest slice 1
+
+Public typed learning data in src/data/learning.ts renders without Auth. New `sourced` editorial state means sources were compared, while academic/Kazakh editorial review remains outstanding. Twelve readings, twelve timeline entries and four people are the first collection, not the full assessment. Join navigation reuses #/join. PlayerName uses a participant UUID identity tag, never a join ordinal; earnedPlace labels actual server ranks. No backend/schema changes in this slice.
+
+---
+
 # Ел жады: Қазақстан, 1939–1953 — project specification
 
 ## Scope and current stage

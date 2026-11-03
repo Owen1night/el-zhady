@@ -1,3 +1,9 @@
+# Current draft: first playtest slice
+
+Production remains the PR #4 release (`e60d7d4`). Branch `codex/learning-and-player-labels` adds desktop/mobile «Ойынға қосылу», replaces visible join ordinals with explicitly labelled opaque identity tags and earned-place labels, and publishes the first sourced reading collection. It needs no SQL or Cron change. This draft is not deployed. Run `node --import tsx scripts/testing/learning-browser.ts` for 360px/1920px Chromium checks; use `npm run preview -- --port 4173` after build. See PLAYTEST_UPDATE.md. The older competition-implementation notes below describe the previous delivery and are historical.
+
+---
+
 # el-zhady
 
 «Ел жады: Қазақстан, 1939–1953» — Kazakh-language university history website.

@@ -1,12 +1,13 @@
+import { learningFacts, learningFigures, learningSources, learningTimeline } from './learning';
 import type { ActivityQuestion, ActivityType, HistoricalFact, HistoricalFigure, HistoricalImage, MapLocation, Section, Source, Thesis, TimelineEvent, Video } from './types';
 
 /** No researched historical content is claimed in stage one. Keep this explicit. */
-export const contentVersion = 'foundation-1';
+export const contentVersion = 'learning-1';
 export const theses: Thesis[] = [];
-export const facts: HistoricalFact[] = [];
-export const figures: HistoricalFigure[] = [];
-export const timelineEvents: TimelineEvent[] = [];
-export const sources: Source[] = [];
+export const facts: HistoricalFact[] = learningFacts;
+export const figures: HistoricalFigure[] = learningFigures;
+export const timelineEvents: TimelineEvent[] = learningTimeline;
+export const sources: Source[] = learningSources;
 export const images: HistoricalImage[] = [];
 export const mapLocations: MapLocation[] = [];
 export const videos: Video[] = [];

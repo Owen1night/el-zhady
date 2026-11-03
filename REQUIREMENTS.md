@@ -1,3 +1,11 @@
+> Editorial revision, 2026-11-03: all twelve Kazakh readings proofread; Kazakhstan-specific Archive/Ministry citations added; twelve timeline records now describe individual events; four biographies explicitly remain introductions. No academic verification or hosted release is claimed. Review: [readings](review/READINGS.md), [timeline](review/TIMELINE.md), [historian questions](review/EDITORIAL_REVIEW.md).
+
+# Playtest update status
+
+Checked in this slice: desktop/mobile room-code menu link; join-number removal from player lobby, own result, history and podium; stable UUID-based same-name distinction; 12 sourced readings, 12 timeline entries and 4 people across wartime/rear/postwar through 1953. These entries are not academically verified. The ten-thesis/thirty-verified-fact/eleven-hero/video/media goals remain incomplete. The permitted 1995 commemorative stamp is a credited catalogue/original link, not a hosted historical photo. Mixed games, room-wide nonrepetition and host end-question controls belong to the next draft and are not delivered by this slice. Production is unchanged.
+
+---
+
 > Latest work: competition lifecycle update on `codex/live-competition-lifecycle`, based on deployed Stage 3 `f291792`. Draft only; new migrations not applied to hosted Supabase, no merge/deploy. The historical Stage 2/3 implementation statuses below are superseded where the new matrix at the end changes the contract. Physical iPhone evidence is limited to the owner's full quiz/late-join/final-result-refresh report.
 
 # Requirements and evidence
