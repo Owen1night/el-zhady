@@ -1,3 +1,9 @@
+# Mixed live challenges — second draft
+
+Branch `codex/mixed-live-challenges` builds on PR #5. Suggested quiz → map → timeline; custom supported orders; 50-task bank; persisted room-wide nonrepetition/capacity failure; normalized equal maxima; target-specific host «Сұрақты аяқтау». See MIXED_SCORING.md, MIXED_SETUP.md and MIXED_VERIFICATION.md. Production and hosted SQL/Cron are unchanged. The first slice can be reviewed/released separately. Local build preview: `npm run build && npm run preview -- --port 4173`; public readings work without backend config, but new live games need the reviewed new backend or `npm run test:mixed:browser` with the disposable local service. No public PR preview URL is claimed.
+
+---
+
 # Current draft: first playtest slice
 
 Production remains the PR #4 release (`e60d7d4`). Branch `codex/learning-and-player-labels` adds desktop/mobile «Ойынға қосылу», replaces visible join ordinals with explicitly labelled opaque identity tags and earned-place labels, and publishes the first sourced reading collection. It needs no SQL or Cron change. This draft is not deployed. Run `node --import tsx scripts/testing/learning-browser.ts` for 360px/1920px Chromium checks; use `npm run preview -- --port 4173` after build. See PLAYTEST_UPDATE.md. The older competition-implementation notes below describe the previous delivery and are historical.

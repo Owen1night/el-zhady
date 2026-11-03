@@ -9,7 +9,7 @@ test('identity labels cannot be mistaken for join-order ranks', () => {
   assert.notEqual(playerTag('aaaa-0001'),playerTag('bbbb-0001'));
 });
 test('published readings have resolvable precise references without claiming academic review', () => {
-  assert.equal(learningFacts.length,12); assert.equal(learningTimeline.length,12);
+  assert.equal(learningFacts.length,13); assert.equal(learningTimeline.length,12);
   assert.deepEqual(validateContent({learningFacts,learningFigures,learningTimeline},learningSources),[]);
   assert(learningFacts.every(f=>f.status==='sourced'&&f.sourceRefs.length));
 });

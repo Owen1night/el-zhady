@@ -14,7 +14,11 @@
     "test:live": "node --import tsx --test supabase/tests/live-quiz.test.ts",
     "test:live:browser": "node --import tsx scripts/testing/competition-browser.ts",
     "test:competition": "node --import tsx --test supabase/tests/competition.test.ts",
-    "test:competition:browser": "node --import tsx scripts/testing/competition-browser.ts"
+    "test:competition:browser": "node --import tsx scripts/testing/competition-browser.ts",
+    "test:mixed": "node --import tsx --test supabase/tests/mixed.test.ts",
+    "test:mixed:browser": "node --import tsx scripts/testing/mixed-browser.ts",
+    "test:learning:browser": "node --import tsx scripts/testing/learning-browser.ts",
+    "check:mixed-content": "node --import tsx scripts/generate-mixed-bank.ts --check"
   },
   "dependencies": {
     "@fontsource/noto-sans": "^5.2.8",

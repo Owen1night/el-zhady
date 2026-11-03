@@ -24,3 +24,7 @@ Run `npm run check`, `npm test`, `npm run build`, and `node --import tsx scripts
 ## Following slice
 
 Room-wide persisted draws/capacity validation; map and timeline live games with common-scale scoring; target-specific admin early timeout; mobile/projector interaction and privacy/reconnection tests. Requires separate reviewed additive SQL. Do not apply any SQL from a draft or rerun applied migrations/Cron.
+
+## Second draft now implemented
+
+`codex/mixed-live-challenges` implements the following slice described above, including custom lineup selection, all-round reservations, equal-max mixed scoring and target-specific early timeout. It also extends the reading collection to 13 readings/5 people and adds a credited public-domain land-outline atlas. It is not merged/deployed or applied remotely. See MIXED_SETUP.md, MIXED_SCORING.md and MIXED_VERIFICATION.md for exact scope, later manual setup and actual local evidence.

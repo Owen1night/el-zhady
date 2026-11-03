@@ -43,3 +43,10 @@ Both SQL Editor executions returned “Success. No rows returned.” The owner r
 These are owner-supplied hosted results, not independent database access or SQL execution by the assistant. **Do not rerun these migrations, earlier migrations, or Cron setup.** CLI migration-history reconciliation remains a separate prerequisite for any future CLI migration workflow.
 
 On 2026-11-03 the owner authorised releasing PR #4 after checking current-head migration compatibility, required CI and merge readiness, followed by verification of GitHub Pages against the resulting merge commit. This entry records setup and release authorisation; it does not claim the frontend has been deployed or that physical-device acceptance has passed.
+
+## Mixed live challenge draft — NOT applied remotely
+
+- `20261103000300_mixed_live_engine.sql`: new draft, isolated test databases only.
+- `20261103000400_mixed_bank_v3.sql`: new draft, isolated test databases only.
+
+No hosted application or Cron change is authorised/performed by this draft task. Do not rerun the five previously manually applied migrations or Cron setup. Later reviewed setup/release instructions: MIXED_SETUP.md. No remote migration history is inferred from local tests.

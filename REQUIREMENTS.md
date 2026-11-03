@@ -1,3 +1,9 @@
+# Mixed draft status — isolated checks, not deployed
+
+[x] Implemented and locally checked: room-wide stored unique questions; insufficient/cross-version-overlap rejection with atomic rollback; 30 quiz + 10 map + 10 timeline bank; three real live activity types; equal per-round scoring maxima; host-only target-specific early finish, normal reveals and full following timers; public atlas and reading/menu/rank first slice. [ ] Hosted setup, release and physical iPhone/Android acceptance remain pending. Practice games, five distinct completed activity types, 10 verified theses/30 verified facts/11 heroes, videos and full media goals remain incomplete. Sourced public drafts now total 13 readings, 12 events, 5 people (2 war heroes), not academically verified assessment counts. Previous checklist entries below describe earlier stages.
+
+---
+
 # Playtest update status
 
 Checked in this slice: desktop/mobile room-code menu link; join-number removal from player lobby, own result, history and podium; stable UUID-based same-name distinction; 12 sourced readings, 12 timeline entries and 4 people across wartime/rear/postwar through 1953. These entries are not academically verified. The ten-thesis/thirty-verified-fact/eleven-hero/video/media goals remain incomplete. The permitted 1995 commemorative stamp is a credited catalogue/original link, not a hosted historical photo. Mixed games, room-wide nonrepetition and host end-question controls belong to the next draft and are not delivered by this slice. Production is unchanged.
