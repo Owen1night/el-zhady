@@ -1,6 +1,6 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import { X } from 'lucide-react';
-export function Dialog({ title, onClose, children, wide = false }: { title: string; onClose: () => void; children: ReactNode; wide?: boolean }) {
+export function Dialog({ title, onClose, children, wide = false, fullscreen = false }: { title: string; onClose: () => void; children: ReactNode; wide?: boolean; fullscreen?: boolean }) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     const element = ref.current!;
@@ -10,7 +10,7 @@ export function Dialog({ title, onClose, children, wide = false }: { title: stri
     document.body.style.overflow = 'hidden';
     return () => { element.close(); document.body.style.overflow = oldOverflow; previous?.focus(); };
   }, []);
-  return <dialog ref={ref} className={wide ? 'dialog wide' : 'dialog'} aria-labelledby="dialog-title" onCancel={event => { event.preventDefault(); onClose(); }} onKeyDown={event => {
+  return <dialog ref={ref} className={fullscreen ? 'dialog qr-dialog' : wide ? 'dialog wide' : 'dialog'} aria-labelledby="dialog-title" onCancel={event => { event.preventDefault(); onClose(); }} onKeyDown={event => {
       if (event.key !== 'Tab') return;
       const focusable = [...event.currentTarget.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex="0"]')].filter(el => el.getClientRects().length > 0);
       const first = focusable[0];

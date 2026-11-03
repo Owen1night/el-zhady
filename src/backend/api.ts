@@ -22,7 +22,8 @@ export const api = {
   lobby: (id: string) => rpc<Lobby>('get_lobby', { p_room_id: id }),
   heartbeat: (id: string) => rpc<null>('lobby_heartbeat', { p_room_id: id }),
   createRoom: (requestId: string, title: string) => rpc<Room>('admin_create_room', { p_request_id: requestId, p_title: title }),
-  roomAction: (id: string, action: 'lock' | 'unlock' | 'close' | 'remove', participantId?: string) => rpc<null>('admin_room_action', { p_room_id: id, p_action: action, p_participant_id: participantId || null }),
+  roomAction: (id: string, action: 'lock' | 'unlock' | 'close' | 'remove' | 'block', participantId?: string) => rpc<null>('admin_room_action', { p_room_id: id, p_action: action, p_participant_id: participantId || null }),
+  deleteRoom: (id: string) => rpc<null>('admin_delete_room', { p_room_id: id }),
   async adminRooms(): Promise<Room[]> {
     const { data, error } = await bounded(client().from('rooms').select('*').order('created_at', { ascending: false }).limit(100));
     if (error) throw serviceError(error);

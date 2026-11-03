@@ -78,3 +78,8 @@ The live authored schema is private SQL, separate from public `ActivityQuestion`
 Do not put this seed in `src/`, `public/`, frontend imports or public read policies. Create a new version with new stable question/option IDs for future substantive edits; never mutate a published version used by starts. Start copies a private frozen snapshot. Only the current prompt and shuffled full-text options are projected before a deadline; keys/explanations/sources follow in reveal. Public narrative source collections remain unfinished, and no ten-thesis/thirty-fact completion is claimed from the quiz.
 
 Correct raw live score is 1000+0..100 server speed; wrong/unanswered0; rank correct count then speed. It is **not** practice /100. Private schema/API access does not hide source SQL in a public GitHub repository. Never claim cheat-proof testing; for higher-stakes assessment use a separately reviewed private authoring/publication process.
+
+
+## Private bank/draw amendment
+
+See COMPETITION_CONTENT.md. Authored bank `ordinal` now ranges1–1000 (unique per version); a played snapshot still has exactly10 ordinals1–10. Published source-checked banks must have at least10 valid questions; this update installs exactly20 in a new immutable version. Never edit the original applied seed or mutate started snapshots. Runtime copies ten distinct sampled rows and persists an independently randomized order once per round; stable option IDs are still shuffled per person. Reconnect and retry must reuse the stored snapshot, not invoke the sampler. Tests verify private permissions and current-only API projections; the build checks all20 question prompts remain absent from shipped JS. A question bank does not complete the public thesis/fact/figure/media assessment.
