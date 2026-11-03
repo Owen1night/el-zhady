@@ -22,7 +22,7 @@ export async function liveHarness(next = false) {
     if (parsed.protocol !== 'postgresql:' || !['127.0.0.1','localhost'].includes(parsed.hostname) || parsed.port !== '55433' || parsed.pathname !== '/postgres') throw new Error('Use the isolated loopback test service at port 55433, never hosted Supabase');
     const admin = new Pool({ connectionString: url });
     const name = `el_zhady_live_test_${randomUUID().replaceAll('-', '')}`;
-    for (const [role, extra] of [['anon',''],['authenticated',''],['service_role','bypassrls']]) await admin.query(`do $$ begin if not exists(select 1 from pg_roles where rolname='${role}') then create role ${role} nologin ${extra}; end if; end $$;`);
+    for (const [role, extra] of [['anon',''],['authenticated',''],['service_role','bypassrls']]) await admin.query(`do $$ begin perform pg_advisory_xact_lock(58393044); if not exists(select 1 from pg_roles where rolname='${role}') then create role ${role} nologin ${extra}; end if; end $$;`);
     await admin.query(`create database ${name}`);
     parsed.pathname = `/${name}`;
     const pool = new Pool({ connectionString: parsed.href, max: 12 });
