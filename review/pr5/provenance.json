@@ -1,0 +1,68 @@
+{
+  "source_commit": "6b0d69bd937eb4550a89ede4744203d265c781cd",
+  "captured_on": "2026-11-03",
+  "engine": "Chromium emulation, not physical Safari",
+  "backend": "unconfigured; public content only",
+  "files": [
+    {
+      "file": "front-1920.png",
+      "sha256": "48c0fb843e6b1bfe68cede27c337e36b2101b43734354435a8f22f4453337549"
+    },
+    {
+      "file": "front-360.png",
+      "sha256": "90cbddfce70cf7504291be6b19cac75ef8bff3fbb685d9db52ffbdf60873c504"
+    },
+    {
+      "file": "heroes-1920.png",
+      "sha256": "8ba791c54f36a887edd7a011d3f3f6863bc07c6331af9c2a1a2024ac11466580"
+    },
+    {
+      "file": "heroes-360.png",
+      "sha256": "4b212863d1eb6a23e309bd52b9906a765b9393dd3c8daf236f5902dc93ea4bfa"
+    },
+    {
+      "file": "home-1920.png",
+      "sha256": "b6283da7bfba7cb923259ccfa186abca95463c55945ba1e2eb70baa79ad60da9"
+    },
+    {
+      "file": "home-360.png",
+      "sha256": "f856c1ae314bcfb4b564b64bdb22162face20bf09c8c1427ad02644418e260b2"
+    },
+    {
+      "file": "homefront-1920.png",
+      "sha256": "5565f3cb4d551f4ed043228fbf0dd404e95df2240cae79681abb8eda3916c7e7"
+    },
+    {
+      "file": "homefront-360.png",
+      "sha256": "03c562ef5647996080445398c646577542602f613f4d988ffb8a7a963aac0d29"
+    },
+    {
+      "file": "menu-360.png",
+      "sha256": "5b919a5f3cd572f4e13d1ddc5cec1f8a5e65c57f1801987e404ef387dd337807"
+    },
+    {
+      "file": "postwar-1920.png",
+      "sha256": "cd07403db1b7037ca926b944e70cd85226141d393cc3e8e57d7c59e5c877a3cf"
+    },
+    {
+      "file": "postwar-360.png",
+      "sha256": "c0d7dae76b42ee23580cf641f14ab6ccf174347579524afbf1226af13c409899"
+    },
+    {
+      "file": "sources-1920.png",
+      "sha256": "221e4139fadcc73216e6e27e2f72c52c90119ec3482f30fff0eef6e276f70610"
+    },
+    {
+      "file": "sources-360.png",
+      "sha256": "bec9710a5dea78516776bd0ef4e4410310c9ebf4c12ae25e55a2ef0ef21694bb"
+    },
+    {
+      "file": "timeline-1920.png",
+      "sha256": "27bb6dd00bfd79f94e078bc7c70e3e20e99b4dc3e556f27bd24f54343299bddb"
+    },
+    {
+      "file": "timeline-360.png",
+      "sha256": "b0e0869bf307f5d53291a464df3e92535907f87eb8f3795c83e5f6cb4da3aa7d"
+    }
+  ]
+}
