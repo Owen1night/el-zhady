@@ -16,6 +16,7 @@ Create an **empty public** repository named `el-zhady-playtest` (no initial READ
 git clone --branch codex/isolated-playtest-guide https://github.com/Owen1night/el-zhady.git el-zhady-playtest
 cd el-zhady-playtest
 git remote rename origin source-read-only
+git remote set-url --push source-read-only DISABLED
 git remote add origin https://github.com/Owen1night/el-zhady-playtest.git
 git switch -c playtest
 cp playtest/isolated-pages.yml .github/workflows/pages.yml
@@ -80,7 +81,7 @@ In the new test repository, Actions → **Deploy isolated playtest** → Run wor
 
 Wait for build/deploy AND public HTTPS commit/asset verification to succeed. The verifier checks HTTP200, the deployed commit marker and SHA-256 matches. Open the actual URL reported by that test run on the laptop and iPhone; check the banner's backend reference matches the **test** project.
 
-This recipe has not yet been exercised against your external test project. Its CI checks source/guard/namespace transformations, not external Auth/SQL/Cron or a completed deployment.
+This recipe has not yet been exercised against your external test project. Its CI checks guards, storage transformations and a complete transformed frontend/verification-manifest build with nonfunctional fixture configuration. It does not contact a backend, verify external Auth/SQL/Cron, or deploy a website.
 
 ## 6. First permanent host login and TEST admin grant
 

@@ -19,3 +19,21 @@ jobs:
       - run: npm run check
       - run: npm run check:mixed-content
       - run: npm run build
+      - name: Prepare isolated fixture build in this ephemeral checkout
+        run: node playtest/prepare-isolated.mjs --fixture-build
+      - run: npm run build
+      - run: node scripts/pages-health.mjs create
+      - name: Verify staged build uses isolated origin and Auth storage
+        run: |
+          node --input-type=module - <<'JS'
+          import {readFile,readdir} from 'node:fs/promises';
+          import assert from 'node:assert/strict';
+          const paths=(await readdir('dist/assets')).filter(f=>f.endsWith('.js'));
+          const js=(await Promise.all(paths.map(p=>readFile('dist/assets/'+p,'utf8')))).join('\n');
+          assert(js.includes('https://example.github.io/el-zhady-playtest/'));
+          assert(js.includes('el-zhady:playtest:'+ 't'.repeat(20)+':auth:v1'));
+          assert(!js.includes('el-zhady:auth:v1'));
+          const manifest=JSON.parse(await readFile('work/pages-manifest.json','utf8'));
+          assert.equal(manifest.url,'https://example.github.io/el-zhady-playtest/');
+          console.log('PASS: transformed frontend builds with isolated QR/OAuth origin, isolated Auth storage and isolated public-verification manifest. No deployment or backend access.');
+          JS
