@@ -1,0 +1,59 @@
+name: Deploy isolated playtest
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: isolated-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    if: github.repository != 'Owen1night/el-zhady'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run check:mixed-content
+      - run: node playtest/prepare-isolated.mjs
+        env:
+          PLAYTEST_SUPABASE_URL: ${{ vars.PLAYTEST_SUPABASE_URL }}
+          PLAYTEST_SUPABASE_PUBLISHABLE_KEY: ${{ vars.PLAYTEST_SUPABASE_PUBLISHABLE_KEY }}
+          PRODUCTION_SUPABASE_PROJECT_REF: ${{ vars.PRODUCTION_SUPABASE_PROJECT_REF }}
+          PLAYTEST_TURNSTILE_SITE_KEY: ${{ vars.PLAYTEST_TURNSTILE_SITE_KEY }}
+      - run: npm run build
+      - run: node scripts/pages-health.mjs create
+      - uses: actions/upload-artifact@v4
+        with:
+          name: isolated-verifier
+          path: |
+            scripts/pages-health.mjs
+            work/pages-manifest.json
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+  deploy:
+    if: github.repository != 'Owen1night/el-zhady'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.release.outputs.page_url }}
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v4
+        with:
+          name: isolated-verifier
+          path: .
+      - uses: actions/deploy-pages@v4
+        id: release
+      - run: node scripts/pages-health.mjs verify
