@@ -1,0 +1,48 @@
+name: Capture pinned PR5 review
+on:
+  push:
+    branches: [codex/pr5-review-assets]
+permissions:
+  contents: write
+jobs:
+  capture:
+    if: github.repository == 'Owen1night/el-zhady' && github.ref == 'refs/heads/codex/pr5-review-assets'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: review-tools
+      - uses: actions/checkout@v4
+        with:
+          ref: 6b0d69bd937eb4550a89ede4744203d265c781cd
+          path: app
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci
+        working-directory: app
+      - run: npx playwright install --with-deps chromium
+        working-directory: app
+      - name: Capture exact PR5 source
+        working-directory: app
+        run: |
+          cp ../review-tools/playtest/capture-pr5.ts scripts/testing/capture-pr5.ts
+          node --import tsx scripts/testing/capture-pr5.ts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pinned-pr5-review
+          path: app/work/pr5-review
+          retention-days: 14
+      - name: Publish direct review images on this auxiliary branch only
+        working-directory: review-tools
+        run: |
+          mkdir -p review/pr5
+          cp ../app/work/pr5-review/* review/pr5/
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add review/pr5
+          git commit -m 'Capture PR5 at 6b0d69b with loaded Kazakh fonts'
+          git push origin HEAD:codex/pr5-review-assets
